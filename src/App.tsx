@@ -178,7 +178,7 @@ export default function App() {
           <ResourcesPage resources={resources} deployment={deployment} />
         )}
         {page === 'overview' && (
-          <EventOverviewPage liveState={liveState} resources={resources} />
+          <EventOverviewPage liveState={liveState} resources={resources} switchMukam={switchMukam} />
         )}
         {page === 'ds' && <DesignSystemPreview />}
       </div>

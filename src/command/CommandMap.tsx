@@ -132,8 +132,8 @@ function MukamNav({ mukams, currentIndex, isTransitioning, onPrev, onNext }: {
   mukams: Mukam[]; currentIndex: number; isTransitioning: boolean; onPrev: () => void; onNext: () => void
 }) {
   const current = mukams[currentIndex]
-  const hasPrev = true  // always enabled — loops
-  const hasNext = true  // always enabled — loops
+  const hasPrev = currentIndex > 0                       // no wrap — disabled at first
+  const hasNext = currentIndex < mukams.length - 1       // no wrap — disabled at last
   const btnStyle = (enabled: boolean): React.CSSProperties => ({
     display: 'flex', alignItems: 'center', gap: 5,
     background: 'none', border: 'none',
@@ -368,15 +368,16 @@ export default function CommandMap({ selectedZoneId, onZoneSelect, showDeployRou
   const startTransition = useCallback((toIndex: number) => {
     if (isTransitioning) return
 
-    // Wrap around — loop through all mukams
-    const wrappedIndex = ((toIndex % MUKAMS.length) + MUKAMS.length) % MUKAMS.length
+    // Clamp — no wrapping (disabled at boundaries)
+    const clampedIndex = Math.max(0, Math.min(toIndex, MUKAMS.length - 1))
+    if (clampedIndex === mukamIndex) return  // already at boundary
 
     const fromIndex = mukamIndex
     timers.current.forEach(clearTimeout)
     timers.current = []
 
     setTransFrom(fromIndex)
-    setTransTo(wrappedIndex)
+    setTransTo(clampedIndex)
 
     // Phase 1: zoom out (0–500ms)
     setPhase('zoom-out')
@@ -389,12 +390,12 @@ export default function CommandMap({ selectedZoneId, onZoneSelect, showDeployRou
 
     // Phase 3: swap data, zoom back in (1100ms)
     timers.current.push(setTimeout(() => {
-      setDisplayIndex(wrappedIndex)
-      setMukamIndex(wrappedIndex)
+      setDisplayIndex(clampedIndex)
+      setMukamIndex(clampedIndex)
       onZoneSelect(null)
       setPhase('zoom-in')
       animateTo({ scale: 1, tx: 0, ty: 0 }, 500)
-      onMukamChange?.(MUKAMS[wrappedIndex])
+      onMukamChange?.(MUKAMS[clampedIndex])
     }, 1100))
 
     // Phase 4: idle (1620ms)
@@ -404,6 +405,20 @@ export default function CommandMap({ selectedZoneId, onZoneSelect, showDeployRou
   }, [isTransitioning, mukamIndex, animateTo, onZoneSelect, onMukamChange])
 
   useEffect(() => () => timers.current.forEach(clearTimeout), [])
+
+  // ── Sync internal mukamIndex when external navigation changes liveMukam ──
+  // When CommandCentre's Prev/Next nav bar calls switchMukam(), liveState.mukamId
+  // changes and mergedMukam is passed down as liveMukam. We must sync the
+  // internal displayIndex/mukamIndex so the SVG map shows the right Mukam.
+  useEffect(() => {
+    if (!liveMukam) return
+    const idx = MUKAMS.findIndex(m => m.id === liveMukam.id)
+    if (idx < 0 || idx === mukamIndex) return
+    // No cinematic transition for external nav — just snap the index
+    if (phase !== 'idle') return  // don't interrupt an in-progress transition
+    setMukamIndex(idx)
+    setDisplayIndex(idx)
+  }, [liveMukam?.id])  // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Zone click ────────────────────────────────────────────────────────
   // The SVG onClick fires after pointerup — check didDragRef to suppress
