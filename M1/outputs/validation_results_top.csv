@@ -1,0 +1,21 @@
+video_name,frame,timestamp,model_current_population,ground_truth_count,count_error_model_minus_truth,absolute_error,percentage_error,frame_image
+walking_top.mp4.mp4,1,0.04,10,12,-2,2,-16.666666666666664,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0001_model_10.jpg
+walking_top.mp4.mp4,19,0.76,12,14,-2,2,-14.285714285714285,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0019_model_12.jpg
+walking_top.mp4.mp4,37,1.48,14,15,-1,1,-6.666666666666667,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0037_model_14.jpg
+walking_top.mp4.mp4,55,2.2,13,14,-1,1,-7.142857142857142,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0055_model_13.jpg
+walking_top.mp4.mp4,73,2.92,13,13,0,0,0.0,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0073_model_13.jpg
+walking_top.mp4.mp4,91,3.64,12,21,-9,9,-42.857142857142854,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0091_model_12.jpg
+walking_top.mp4.mp4,109,4.36,14,17,-3,3,-17.647058823529413,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0109_model_14.jpg
+walking_top.mp4.mp4,127,5.08,14,15,-1,1,-6.666666666666667,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0127_model_14.jpg
+walking_top.mp4.mp4,145,5.8,12,14,-2,2,-14.285714285714285,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0145_model_12.jpg
+walking_top.mp4.mp4,163,6.52,12,15,-3,3,-20.0,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0163_model_12.jpg
+walking_top.mp4.mp4,180,7.2,15,15,0,0,0.0,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0180_model_15.jpg
+walking_top.mp4.mp4,198,7.92,16,16,0,0,0.0,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0198_model_16.jpg
+walking_top.mp4.mp4,216,8.64,14,13,1,1,7.6923076923076925,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0216_model_14.jpg
+walking_top.mp4.mp4,234,9.36,14,12,2,2,16.666666666666664,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0234_model_14.jpg
+walking_top.mp4.mp4,252,10.08,14,14,0,0,0.0,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0252_model_14.jpg
+walking_top.mp4.mp4,270,10.8,15,12,3,3,25.0,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0270_model_15.jpg
+walking_top.mp4.mp4,288,11.52,12,11,1,1,9.090909090909092,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0288_model_12.jpg
+walking_top.mp4.mp4,306,12.24,13,11,2,2,18.181818181818183,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0306_model_13.jpg
+walking_top.mp4.mp4,324,12.96,14,11,3,3,27.27272727272727,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0324_model_14.jpg
+walking_top.mp4.mp4,342,13.68,15,13,2,2,15.384615384615385,C:\Users\athar\OneDrive\Desktop\Atharv Patil\M1_WariAi\outputs\validation_frames\top_view\frame_0342_model_15.jpg

@@ -1,0 +1,13 @@
+{
+  "video_name": "walking_top.mp4.mp4",
+  "sampled_frames": 20,
+  "metric_definitions": {
+    "mae": "Mean absolute count error in people.",
+    "mean_percentage_error": "Mean signed ((model - ground truth) / ground truth) * 100; zero-ground-truth frames are excluded.",
+    "counting_accuracy_percent": "100 minus mean absolute percentage error; zero-ground-truth frames are excluded and the result is bounded at 0."
+  },
+  "mae": 1.9,
+  "mean_percentage_error": -1.3465,
+  "mean_absolute_percentage_error": 13.2754,
+  "counting_accuracy_percent": 86.7246
+}
