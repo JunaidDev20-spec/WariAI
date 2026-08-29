@@ -14,12 +14,13 @@ interface Props {
   mukamId: string
   deployment: DeploymentState   // always provided — guarded internally
   assignedResources: OperationalResource[]
+  deploymentAvailable: boolean  // true when cleanliness demand is HIGH/CRITICAL
   onOpenDeploy: () => void
   onMarkResolved: () => void
 }
 
 export default function PriorityActionPanel({
-  alert, mukamId, deployment, assignedResources, onOpenDeploy, onMarkResolved,
+  alert, mukamId, deployment, assignedResources, deploymentAvailable, onOpenDeploy, onMarkResolved,
 }: Props) {
   // Safe fallback — treat missing deployment as idle
   const phase = deployment?.phase ?? 'idle'
@@ -156,7 +157,7 @@ export default function PriorityActionPanel({
               onClick={onOpenDeploy}
               className="btn-base deploy-pulse"
               style={{
-                width: '100%', height: 44, background: '#2DD4A8', color: '#060F0C',
+                width: '100%', height: 44, background: deploymentAvailable ? '#EF5B5B' : '#2DD4A8', color: '#060F0C',
                 border: 'none', borderRadius: 16, fontFamily: 'Manrope,sans-serif',
                 fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.06em',
                 cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
@@ -164,11 +165,16 @@ export default function PriorityActionPanel({
               onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.filter = 'brightness(1.1)' }}
               onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.filter = '' }}
             >
-              DEPLOY RESPONSE
+              {deploymentAvailable ? 'DEPLOY CLEANLINESS TEAM' : 'DEPLOY RESPONSE'}
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
+            {deploymentAvailable && (
+              <div style={{ marginTop: 6, fontFamily: "'IBM Plex Mono',monospace", fontSize: '0.625rem', letterSpacing: '0.08em', color: '#EF5B5B', textAlign: 'center' }}>
+                HIGH CLEANLINESS DEMAND - DEPLOYMENT RECOMMENDED
+              </div>
+            )}
           </div>
         </>)}
 

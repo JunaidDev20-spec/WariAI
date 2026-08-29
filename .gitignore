@@ -64,3 +64,7 @@ M1/outputs/ablation/
 # Keep lightweight outputs
 !M1/outputs/*.csv
 !M1/outputs/*.json
+
+server/.wwebjs_auth/
+server/whatsapp-qr.png
+server/.wwebjs_cache/

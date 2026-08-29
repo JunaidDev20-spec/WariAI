@@ -231,6 +231,77 @@ body {
   .panel-hover:hover { transform: none; }
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   COMMAND CENTRE LAYOUT
+═══════════════════════════════════════════════════════════════ */
+
+/* Command Centre map — fills its grid row (capped) so it is a balanced tile */
+.cc-map-locked {
+  height: 100%;
+  max-height: 620px;
+}
+
+/* Command Centre dashboard grid — two balanced rows */
+.cc-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 16px;
+  align-items: stretch;
+  min-width: 0;
+}
+/* Row 1: fixed row height so map tile + row-mate are always equal height (no gaps),
+   tall enough to show the full cleanliness/deploy card without scrolling */
+.cc-dashboard-r1 { grid-template-rows: 560px; }
+
+/* Right-column cards never shrink inside their grid cell */
+.cc-right-card { flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1023px) {
+  .cc-map-locked { height: 360px; max-height: none; }
+  .cc-dashboard-r1 { grid-template-rows: auto; }
+  .cc-dashboard { grid-template-columns: 1fr !important; }
+  .main-content { padding: 40px 24px 80px; }
+  .cc-right-col { display: grid !important; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .cc-bottom-strip {
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto auto !important;
+  }
+  .cc-bottom-strip .cc-sep { display: none !important; }
+}
+@media (max-width: 767px) {
+  .cc-map-locked { height: 300px; }
+  .cc-dashboard { grid-template-columns: 1fr !important; }
+  .main-content { padding: 32px 16px 64px; }
+  .hero-title { font-size: clamp(2.5rem, 12vw, 4rem) !important; }
+  .section-gap { gap: 4rem !important; }
+  .cc-metrics-grid { grid-template-columns: 1fr 1fr !important; }
+  .cc-right-col { grid-template-columns: 1fr !important; }
+  .cc-bottom-strip {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+  }
+  .cc-bottom-strip .cc-sep { display: none !important; }
+  .cc-nav-items { display: none; }
+}
+
+/* ── prefers-reduced-motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .live-dot, .crit-breath, .dash-flow, .marker-ring, .route-flow,
+  .urgent-border, .deploy-pulse, .line-draw-teal, .line-draw-violet,
+  .route-reveal, .section-enter, .panel-hover, .btn-base,
+  .cc-nav-enter, .cc-strip-enter, .cc-map-enter, .cc-right-enter, .cc-bottom-enter {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+  .panel-hover:hover { transform: none; }
+}
+
 /* ── Incidents page responsive ── */
 @media (max-width: 1023px) {
   .incidents-grid {

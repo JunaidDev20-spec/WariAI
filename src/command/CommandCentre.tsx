@@ -9,12 +9,12 @@ import AtmosphericBackground   from '../components/AtmosphericBackground'
 import CommandNav              from './CommandNav'
 import GlobalMetricsStrip      from './GlobalMetricsStrip'
 import RealMap                 from './RealMap'
-import PriorityActionPanel     from './PriorityActionPanel'
-import AIForecastPanel         from './AIForecastPanel'
+import CleanlinessDeploymentCard from './CleanlinessDeploymentCard'
 import BottomIntelligenceStrip from './BottomIntelligenceStrip'
 import DeploymentPanel         from '../components/DeploymentPanel'
 import { MUKAMS, type Mukam }  from '../data/mockCommandData'
 import type { MukamLiveState } from '../simulation/simulationEngine'
+import type { CleanlinessDemand } from '../api/operationsApi'
 import type { OperationalResource } from '../data/mockResources'
 import type { DeploymentState } from '../types/operations'
 
@@ -22,6 +22,8 @@ import type { DeploymentState } from '../types/operations'
 interface CommandCentreProps {
   liveState: MukamLiveState
   switchMukam: (id: string) => void
+  cleanlinessDemand: CleanlinessDemand | null
+  deploymentAvailable: boolean
   resources: OperationalResource[]
   deployment: DeploymentState
   openDeployment: ReturnType<typeof import('../hooks/useResponseOperations').useResponseOperations>['openDeployment']
@@ -97,7 +99,7 @@ function MukamNavBar({
 
 // ── Main export ───────────────────────────────────────────────────────────
 export default function CommandCentre({
-  liveState, switchMukam,
+  liveState, switchMukam, cleanlinessDemand, deploymentAvailable,
   resources, deployment,
   openDeployment, cancelDeployment,
   toggleResource, confirmDeployment, markResolved,
@@ -232,7 +234,8 @@ export default function CommandCentre({
 
           <GlobalMetricsStrip metrics={mergedMukam.metrics} />
 
-          <div className="cc-main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 16, flex: 1, minHeight: 0 }}>
+          {/* Row 1 — Map | Cleanliness / Deployment / Priority Action */}
+          <div className="cc-dashboard cc-dashboard-r1" style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: 16, alignItems: 'stretch' }}>
             <RealMap
               selectedZoneId={selectedZoneId}
               onZoneSelect={setSelectedZoneId}
@@ -241,27 +244,24 @@ export default function CommandCentre({
               liveMukam={mergedMukam}
             />
 
-            <div className="cc-right-col" style={{ display: 'flex', flexDirection: 'column', gap: 16, minHeight: 0, overflowY: 'auto' }}>
-              <PriorityActionPanel
-                alert={mergedMukam.alert}
-                mukamId={mergedMukam.id}
-                deployment={deployment}
-                assignedResources={assignedResources}
-                onOpenDeploy={handleOpenDeploy}
-                onMarkResolved={markResolved}
-              />
-              <AIForecastPanel
-                series={mergedMukam.forecast}
-                confidence={mergedMukam.metrics.aiConfidence}
-              />
-            </div>
+            <CleanlinessDeploymentCard
+              alert={mergedMukam.alert}
+              mukamId={mergedMukam.id}
+              deployment={deployment}
+              assignedResources={assignedResources}
+              deploymentAvailable={deploymentAvailable}
+              cleanlinessDemand={cleanlinessDemand}
+              onOpenDeploy={handleOpenDeploy}
+              onMarkResolved={markResolved}
+            />
           </div>
 
+          {/* Compact bottom KPI strip — restored (no oversized standalone KPI cards) */}
           <BottomIntelligenceStrip
             metrics={mergedMukam.metrics}
             movement={mergedMukam.movement}
-            sanitationLoad={mergedMukam.sanitationLoad}
-            sanitationPredicted={mergedMukam.sanitationPredicted}
+            cleanlinessDemand={cleanlinessDemand}
+            deploymentAvailable={deploymentAvailable}
             forecast30Delta={mergedMukam.forecast30Delta}
             forecast60Delta={mergedMukam.forecast60Delta}
           />

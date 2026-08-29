@@ -8,6 +8,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import AtmosphericBackground from '../components/AtmosphericBackground'
+import SanitationForecastPanel from '../components/SanitationForecastPanel'
 import type { MukamLiveState } from '../simulation/simulationEngine'
 import { MUKAMS } from '../data/mockCommandData'
 
@@ -717,6 +718,9 @@ export default function IntelligencePage({ liveState }: Props) {
 
           {/* 3. Insight */}
           <OperationalInsight {...insightProps} />
+
+          {/* 4. M2/M3 sanitation planning (demo data) */}
+          <SanitationForecastPanel mukamId={mukamId} />
 
         </div>
       </div>

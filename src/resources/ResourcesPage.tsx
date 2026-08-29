@@ -7,6 +7,13 @@
 import { useState } from 'react'
 import AtmosphericBackground from '../components/AtmosphericBackground'
 import { resourceTypeLabel, type OperationalResource, type ResourceStatus } from '../data/mockResources'
+import { MUKAMS } from '../data/mockCommandData'
+import {
+  TOILET_RESOURCES,
+  DUSTBIN_RESOURCES,
+  type ToiletResource,
+  type DustbinResource,
+} from '../data/resourceData'
 import type { DeploymentState } from '../types/operations'
 
 // ── Props ─────────────────────────────────────────────────────────────────
@@ -31,6 +38,190 @@ const STATUS_CFG: Record<ResourceStatus, { color: string; label: string; pulse: 
 
 function statusCfg(s: ResourceStatus) {
   return STATUS_CFG[s] ?? STATUS_CFG.unavailable
+}
+
+// ── Secondary nav tabs ────────────────────────────────────────────────────
+type ResourceTab = 'teams' | 'toilets' | 'dustbins'
+
+const TABS: { id: ResourceTab; label: string }[] = [
+  { id: 'teams',    label: 'TEAMS'    },
+  { id: 'toilets',  label: 'TOILETS'  },
+  { id: 'dustbins', label: 'DUSTBINS' },
+]
+
+function SecondaryNav({ active, onChange }: { active: ResourceTab; onChange: (t: ResourceTab) => void }) {
+  return (
+    <div style={{
+      display: 'inline-flex', alignItems: 'center', gap: 2,
+      background: '#111714', border: '1px solid #28332D', borderRadius: 14,
+      padding: '4px 5px',
+    }}>
+      {TABS.map(({ id, label }) => {
+        const isActive = active === id
+        return (
+          <button
+            key={id}
+            onClick={() => onChange(id)}
+            style={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: '0.688rem', letterSpacing: '0.09em',
+              color: isActive ? '#060F0C' : '#9AA7A0',
+              background: isActive ? '#2DD4A8' : 'transparent',
+              border: 'none', borderRadius: 10,
+              padding: '5px 13px', cursor: 'pointer',
+              transition: 'all 0.18s ease',
+              fontWeight: isActive ? 700 : 400,
+              whiteSpace: 'nowrap', lineHeight: 1,
+            }}
+          >
+            {label}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+// ── Toilet inventory view ──────────────────────────────────────────────────
+function ToiletsView() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+      {MUKAMS.map(mukam => {
+        const toilets = TOILET_RESOURCES.filter(t => t.mukamId === mukam.id)
+        if (toilets.length === 0) return null
+
+        const zones = Array.from(new Set(toilets.map(t => t.zoneId))).sort()
+
+        return (
+          <div key={mukam.id} style={{
+            background: '#111714', border: '1px solid #28332D', borderRadius: 24,
+            overflow: 'hidden',
+          }}>
+            {/* Mukam header */}
+            <div style={{
+              padding: '14px 20px 12px',
+              background: 'linear-gradient(150deg, rgba(45,212,168,0.05) 0%, transparent 60%)',
+              borderBottom: '1px solid #1C2520',
+            }}>
+              <div style={{ ...MONO, fontSize: '0.688rem', letterSpacing: '0.16em', color: '#2DD4A8', textTransform: 'uppercase' }}>
+                {mukam.id} — {mukam.name.replace('Mukam ', '')}
+              </div>
+              <div style={{ ...SANS, fontSize: '0.8125rem', color: '#9AA7A0', marginTop: 2 }}>
+                {mukam.location}
+              </div>
+            </div>
+
+            {/* Zone groups */}
+            <div style={{ padding: '14px 20px 8px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {zones.map(zoneId => {
+                const zoneToilets = toilets.filter((t: ToiletResource) => t.zoneId === zoneId)
+                const zoneLabel = zoneId.replace('ZONE_', 'ZONE ')
+                return (
+                  <div key={zoneId}>
+                    <div style={{ ...MONO, fontSize: '0.688rem', letterSpacing: '0.14em', color: '#66736C', marginBottom: 8, textTransform: 'uppercase' }}>
+                      {zoneLabel}
+                    </div>
+                    <div style={{
+                      display: 'grid', gridTemplateColumns: '90px 1fr 180px 80px', gap: 8,
+                      padding: '6px 10px', background: 'rgba(243,246,244,0.03)', borderRadius: 8, marginBottom: 2,
+                    }}>
+                      {['ID', 'Name', 'Location', 'Capacity'].map(h => (
+                        <span key={h} style={{
+                          ...MONO, fontSize: '0.625rem', letterSpacing: '0.08em', color: '#66736C', textTransform: 'uppercase',
+                        }}>{h}</span>
+                      ))}
+                    </div>
+                    {zoneToilets.map((t: ToiletResource) => (
+                      <div key={t.id} style={{
+                        display: 'grid', gridTemplateColumns: '90px 1fr 180px 80px', gap: 8,
+                        padding: '5px 10px', borderTop: '1px solid #1C2520',
+                      }}>
+                        <span style={{ ...MONO, fontSize: '0.75rem', color: '#F3F6F4' }}>{t.id}</span>
+                        <span style={{ ...SANS, fontSize: '0.75rem', color: '#9AA7A0' }}>{t.name}</span>
+                        <span style={{ ...SANS, fontSize: '0.75rem', color: '#9AA7A0' }}>{t.location}</span>
+                        <span style={{ ...MONO, fontSize: '0.75rem', color: '#F3F6F4', textAlign: 'right' }}>{t.capacity}</span>
+                      </div>
+                    ))}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+// ── Dustbin inventory view ─────────────────────────────────────────────────
+function DustbinsView() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+      {MUKAMS.map(mukam => {
+        const dustbins = DUSTBIN_RESOURCES.filter(d => d.mukamId === mukam.id)
+        if (dustbins.length === 0) return null
+
+        const zones = Array.from(new Set(dustbins.map(d => d.zoneId))).sort()
+
+        return (
+          <div key={mukam.id} style={{
+            background: '#111714', border: '1px solid #28332D', borderRadius: 24,
+            overflow: 'hidden',
+          }}>
+            {/* Mukam header */}
+            <div style={{
+              padding: '14px 20px 12px',
+              background: 'linear-gradient(150deg, rgba(45,212,168,0.05) 0%, transparent 60%)',
+              borderBottom: '1px solid #1C2520',
+            }}>
+              <div style={{ ...MONO, fontSize: '0.688rem', letterSpacing: '0.16em', color: '#2DD4A8', textTransform: 'uppercase' }}>
+                {mukam.id} — {mukam.name.replace('Mukam ', '')}
+              </div>
+              <div style={{ ...SANS, fontSize: '0.8125rem', color: '#9AA7A0', marginTop: 2 }}>
+                {mukam.location}
+              </div>
+            </div>
+
+            {/* Zone groups */}
+            <div style={{ padding: '14px 20px 8px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {zones.map(zoneId => {
+                const zoneDustbins = dustbins.filter((d: DustbinResource) => d.zoneId === zoneId)
+                const zoneLabel = zoneId.replace('ZONE_', 'ZONE ')
+                return (
+                  <div key={zoneId}>
+                    <div style={{ ...MONO, fontSize: '0.688rem', letterSpacing: '0.14em', color: '#66736C', marginBottom: 8, textTransform: 'uppercase' }}>
+                      {zoneLabel}
+                    </div>
+                    <div style={{
+                      display: 'grid', gridTemplateColumns: '90px 1fr 180px 80px', gap: 8,
+                      padding: '6px 10px', background: 'rgba(243,246,244,0.03)', borderRadius: 8, marginBottom: 2,
+                    }}>
+                      {['ID', 'Name', 'Location', 'Capacity'].map(h => (
+                        <span key={h} style={{
+                          ...MONO, fontSize: '0.625rem', letterSpacing: '0.08em', color: '#66736C', textTransform: 'uppercase',
+                        }}>{h}</span>
+                      ))}
+                    </div>
+                    {zoneDustbins.map((d: DustbinResource) => (
+                      <div key={d.id} style={{
+                        display: 'grid', gridTemplateColumns: '90px 1fr 180px 80px', gap: 8,
+                        padding: '5px 10px', borderTop: '1px solid #1C2520',
+                      }}>
+                        <span style={{ ...MONO, fontSize: '0.75rem', color: '#F3F6F4' }}>{d.id}</span>
+                        <span style={{ ...SANS, fontSize: '0.75rem', color: '#9AA7A0' }}>{d.name}</span>
+                        <span style={{ ...SANS, fontSize: '0.75rem', color: '#9AA7A0' }}>{d.location}</span>
+                        <span style={{ ...MONO, fontSize: '0.75rem', color: '#F3F6F4', textAlign: 'right' }}>{d.capacity}</span>
+                      </div>
+                    ))}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
 }
 
 // ── Summary strip ─────────────────────────────────────────────────────────
@@ -236,11 +427,12 @@ function ResourceDetail({
 
 // ── Main page ─────────────────────────────────────────────────────────────
 export default function ResourcesPage({ resources, deployment }: Props) {
-  // Auto-select first resource
+  const [tab, setTab] = useState<ResourceTab>('teams')
+
+  // Teams state
   const [selectedId, setSelectedId] = useState<string | null>(
     resources.length > 0 ? resources[0].id : null
   )
-
   const selected = resources.find(r => r.id === selectedId) ?? null
 
   // Sort: active/en_route first, then available, then others
@@ -283,51 +475,64 @@ export default function ResourcesPage({ resources, deployment }: Props) {
           </div>
         </div>
 
+        {/* Secondary navigation */}
+        <div style={{ padding: '14px 28px 0', flexShrink: 0 }}>
+          <SecondaryNav active={tab} onChange={setTab} />
+        </div>
+
         {/* Body */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 14, padding: '16px 28px 24px', minHeight: 0 }}>
 
-          <SummaryStrip resources={resources} />
+          {tab === 'teams' && (
+            <>
+              <SummaryStrip resources={resources} />
 
-          {/* List + Detail */}
-          <div style={{
-            display: 'grid', gridTemplateColumns: '40% 1fr',
-            gap: 14, flex: 1, minHeight: 0,
-          }}
-          className="resources-grid"
-          >
-            {/* List */}
-            <div style={{
-              display: 'flex', flexDirection: 'column',
-              background: '#111714', border: '1px solid #28332D', borderRadius: 24,
-              padding: '14px 10px 14px 14px', minHeight: 0, overflow: 'hidden',
-            }}>
-              <div style={{ ...MONO, fontSize: '0.688rem', letterSpacing: '0.16em', color: '#66736C', textTransform: 'uppercase', marginBottom: 10, paddingLeft: 4, flexShrink: 0 }}>
-                {sorted.length} RESOURCES
-              </div>
-
-              {sorted.length === 0 ? (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-                  <div style={{ ...SANS, fontSize: '0.875rem', color: '#66736C', textAlign: 'center' }}>
-                    NO RESOURCE DATA AVAILABLE
+              {/* List + Detail */}
+              <div style={{
+                display: 'grid', gridTemplateColumns: '40% 1fr',
+                gap: 14, flex: 1, minHeight: 0,
+              }}
+              className="resources-grid"
+              >
+                {/* List */}
+                <div style={{
+                  display: 'flex', flexDirection: 'column',
+                  background: '#111714', border: '1px solid #28332D', borderRadius: 24,
+                  padding: '14px 10px 14px 14px', minHeight: 0, overflow: 'hidden',
+                }}>
+                  <div style={{ ...MONO, fontSize: '0.688rem', letterSpacing: '0.16em', color: '#66736C', textTransform: 'uppercase', marginBottom: 10, paddingLeft: 4, flexShrink: 0 }}>
+                    {sorted.length} RESOURCES
                   </div>
-                </div>
-              ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, overflowY: 'auto', flex: 1, paddingRight: 2 }}>
-                  {sorted.map(r => (
-                    <ResourceRow
-                      key={r.id}
-                      resource={r}
-                      isSelected={r.id === selectedId}
-                      onClick={() => setSelectedId(r.id)}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
 
-            {/* Detail */}
-            <ResourceDetail resource={selected} deployment={deployment} />
-          </div>
+                  {sorted.length === 0 ? (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+                      <div style={{ ...SANS, fontSize: '0.875rem', color: '#66736C', textAlign: 'center' }}>
+                        NO RESOURCE DATA AVAILABLE
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, overflowY: 'auto', flex: 1, paddingRight: 2 }}>
+                      {sorted.map(r => (
+                        <ResourceRow
+                          key={r.id}
+                          resource={r}
+                          isSelected={r.id === selectedId}
+                          onClick={() => setSelectedId(r.id)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Detail */}
+                <ResourceDetail resource={selected} deployment={deployment} />
+              </div>
+            </>
+          )}
+
+          {tab === 'toilets' && <ToiletsView />}
+
+          {tab === 'dustbins' && <DustbinsView />}
 
         </div>
       </div>

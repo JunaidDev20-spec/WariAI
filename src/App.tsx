@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import CommandCentre    from './command/CommandCentre'
 import IncidentsPage    from './incidents/IncidentsPage'
 import IntelligencePage from './intelligence/IntelligencePage'
@@ -116,7 +116,7 @@ function DesignSystemPreview() {
 export default function App() {
   const [page, setPage] = useState<AppPage>('command')
 
-  const { liveState, switchMukam } = useLiveSimulation()
+  const { liveState, switchMukam, cleanlinessDemand, deploymentAvailable } = useLiveSimulation()
   const {
     resources, deployment, incidents,
     openDeployment, cancelDeployment,
@@ -124,6 +124,33 @@ export default function App() {
   } = useResponseOperations()
 
   const criticalCount = liveState.metrics.criticalZones
+
+  const prevCleanlinessLevelRef = useRef<string | null>(null)
+
+  useEffect(() => {
+    const currentLevel = cleanlinessDemand?.level || null
+    if (currentLevel === 'CRITICAL' && prevCleanlinessLevelRef.current !== 'CRITICAL') {
+      const zoneId = liveState.alert.zoneId
+      const zoneLabel = liveState.alert.zoneLabel
+      const mukamId = liveState.mukamId
+      const zoneResources = resources
+        .filter(r => r.zoneId === zoneId)
+        .map(r => ({
+          id: r.id,
+          name: r.name,
+          type: r.type,
+          status: r.status,
+          baseLocation: '',
+        }))
+
+      fetch('http://localhost:5000/api/deployments/alert', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mukamId, zoneLabel, resources: zoneResources }),
+      }).catch(() => {})
+    }
+    prevCleanlinessLevelRef.current = currentLevel
+  }, [cleanlinessDemand, liveState, resources])
 
   return (
     <div style={{ minHeight: '100vh', background: '#090D0B' }}>
@@ -149,6 +176,8 @@ export default function App() {
           <CommandCentre
             liveState={liveState}
             switchMukam={switchMukam}
+            cleanlinessDemand={cleanlinessDemand}
+            deploymentAvailable={deploymentAvailable}
             resources={resources}
             deployment={deployment}
             openDeployment={openDeployment}

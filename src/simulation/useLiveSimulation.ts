@@ -16,11 +16,20 @@ import {
   buildAllInitialStates,
   type MukamLiveState,
 } from './simulationEngine'
+import { submitCrowdData, getCleanlinessStatus } from '../api/operationsApi'
+import type { CleanlinessDemand } from '../api/operationsApi'
 
 // Tick interval in milliseconds — 7s is demo-friendly and readable
 const TICK_INTERVAL_MS = 7000
 
-export function useLiveSimulation() {
+export interface LiveSimulationResult {
+  liveState: MukamLiveState
+  switchMukam: (id: string) => void
+  cleanlinessDemand: CleanlinessDemand | null
+  deploymentAvailable: boolean
+}
+
+export function useLiveSimulation(): LiveSimulationResult {
   // All Mukam states in one Map — keyed by mukamId
   // Using useRef for the actual store to avoid triggering re-renders from
   // the interval itself; we push selected-Mukam state into useState separately.
@@ -41,6 +50,10 @@ export function useLiveSimulation() {
     return () => { mountedRef.current = false }
   }, [])
 
+  // Cleanliness demand from backend (derived from M1 crowd data)
+  const [cleanlinessDemand, setCleanlinessDemand] = useState<CleanlinessDemand | null>(null)
+  const [deploymentAvailable, setDeploymentAvailable] = useState(false)
+
   // ── Single interval — created once ───────────────────────────────────
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -58,6 +71,27 @@ export function useLiveSimulation() {
       // Only push to React state if this is still the displayed Mukam
       if (mountedRef.current) {
         setLiveState(updated)
+
+        // POST crowd data to backend for cleanliness calculation
+        const totalCrowd = updated.zones.reduce((sum, z) => sum + z.crowd, 0)
+        submitCrowdData(currentId, totalCrowd)
+          .then(result => {
+            if (mountedRef.current) {
+              setCleanlinessDemand(result.cleanliness)
+              setDeploymentAvailable(result.deploymentAvailable)
+            }
+          })
+          .catch(() => {
+            // Backend unavailable — fetch status instead
+            getCleanlinessStatus()
+              .then(status => {
+                if (mountedRef.current) {
+                  setCleanlinessDemand(status.cleanliness)
+                  setDeploymentAvailable(status.deploymentAvailable)
+                }
+              })
+              .catch(() => { /* non-fatal */ })
+          })
       }
     }, TICK_INTERVAL_MS)
 
@@ -74,5 +108,5 @@ export function useLiveSimulation() {
     }
   }, [])
 
-  return { liveState, switchMukam }
+  return { liveState, switchMukam, cleanlinessDemand, deploymentAvailable }
 }

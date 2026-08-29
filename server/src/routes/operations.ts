@@ -9,6 +9,7 @@ import {
   findIncident, findResource, patchIncident, patchResource,
 } from '../data/operationalData.js'
 import type { Deployment } from '../types/operations.js'
+import { sendDeploymentWhatsApp } from '../services/whatsappService.js'
 
 const router = Router()
 
@@ -72,6 +73,20 @@ router.post('/', (req: Request, res: Response) => {
     incident: findIncident(incidentId),
     resources: resourceIds.map(id => findResource(id)),
   })
+
+  // Fire-and-forget WhatsApp notification (non-blocking)
+  const deployedResources = resourceIds.map(id => findResource(id)).filter((r): r is NonNullable<typeof r> => r !== undefined)
+  sendDeploymentWhatsApp(
+    incident.mukamId,
+    incident.zoneLabel,
+    deployedResources.map(r => ({
+      id: r.id,
+      name: r.name,
+      type: r.type,
+      status: r.status,
+      baseLocation: r.baseLocation,
+    })),
+  ).catch(() => {})
 })
 
 // POST /api/deployments/:incidentId/resolve
@@ -101,3 +116,24 @@ router.post('/:incidentId/resolve', (req: Request, res: Response) => {
 })
 
 export default router
+
+// POST /api/deployments/alert — trigger WhatsApp clipboard alert for critical deployments
+router.post('/alert', async (req: Request, res: Response) => {
+  const { mukamId, zoneLabel, resources } = req.body as {
+    mukamId?: string
+    zoneLabel?: string
+    resources?: Array<{ id: string; name: string; type: string; status: string; baseLocation: string }>
+  }
+
+  if (!mukamId || !zoneLabel || !Array.isArray(resources)) {
+    res.status(400).json({ error: 'mukamId, zoneLabel, and resources array are required' })
+    return
+  }
+
+  try {
+    await sendDeploymentWhatsApp(mukamId, zoneLabel, resources)
+    res.json({ success: true })
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to send alert' })
+  }
+})

@@ -7,6 +7,8 @@ import cors    from 'cors'
 import incidentRoutes  from './routes/incidents.js'
 import resourceRoutes  from './routes/resources.js'
 import operationRoutes from './routes/operations.js'
+import cleanlinessRoutes from './routes/cleanliness.js'
+import { initWhatsApp } from './services/whatsappService.js'
 
 const app  = express()
 const PORT = 5000
@@ -28,6 +30,7 @@ app.get('/api/health', (_req, res) => {
 app.use('/api/incidents',   incidentRoutes)
 app.use('/api/resources',   resourceRoutes)
 app.use('/api/deployments', operationRoutes)
+app.use('/api',             cleanlinessRoutes)
 
 // ── 404 fallback ──────────────────────────────────────────────────────────
 app.use((_req, res) => {
@@ -35,6 +38,10 @@ app.use((_req, res) => {
 })
 
 // ── Start ─────────────────────────────────────────────────────────────────
+initWhatsApp().catch(() => {
+  console.warn('WhatsApp client initialization failed — notifications disabled')
+})
+
 app.listen(PORT, () => {
   console.log(`\n  WariAI API  →  http://localhost:${PORT}/api/health\n`)
 })

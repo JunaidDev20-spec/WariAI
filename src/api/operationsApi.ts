@@ -105,3 +105,48 @@ export interface ResolveResult {
 export function resolveDeployment(incidentId: string): Promise<ResolveResult> {
   return apiFetch<ResolveResult>(`/deployments/${incidentId}/resolve`, { method: 'POST' })
 }
+
+// ── Crowd data (M1 integration) ───────────────────────────────────────────
+
+export interface CrowdReading {
+  mukamId: string
+  current_population: number
+  timestamp: number
+}
+
+export interface CleanlinessDemand {
+  mukamId: string
+  level: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL'
+  percent: number
+  current_population: number
+  timestamp: number
+}
+
+export interface CrowdSubmitResult {
+  reading: CrowdReading
+  cleanliness: CleanlinessDemand
+  deploymentAvailable: boolean
+}
+
+export interface CleanlinessStatus {
+  cleanliness: CleanlinessDemand
+  deploymentAvailable: boolean
+  thresholds: {
+    low: number
+    medium: number
+    high: number
+  }
+}
+
+/** Send M1 current_population to backend, returns cleanliness demand */
+export function submitCrowdData(mukamId: string, current_population: number): Promise<CrowdSubmitResult> {
+  return apiFetch<CrowdSubmitResult>('/crowd', {
+    method: 'POST',
+    body: JSON.stringify({ mukamId, current_population }),
+  })
+}
+
+/** Get current cleanliness demand status */
+export function getCleanlinessStatus(): Promise<CleanlinessStatus> {
+  return apiFetch<CleanlinessStatus>('/cleanliness')
+}

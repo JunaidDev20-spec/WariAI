@@ -3,12 +3,13 @@
 // Zero overlap, zero bleed. Each cell is fully isolated.
 // ─────────────────────────────────────────────────────────────────────────
 import type { GlobalMetrics, MovementFlow } from '../data/mockCommandData'
+import type { CleanlinessDemand } from '../api/operationsApi'
 
 interface Props {
   metrics: GlobalMetrics
   movement: MovementFlow
-  sanitationLoad: number
-  sanitationPredicted: number
+  cleanlinessDemand: CleanlinessDemand | null
+  deploymentAvailable: boolean
   forecast30Delta: string
   forecast60Delta: string
 }
@@ -145,11 +146,15 @@ function Sep() {
 }
 
 // ── Main export ───────────────────────────────────────────────────────────
-export default function BottomIntelligenceStrip({ metrics, movement, sanitationLoad, sanitationPredicted, forecast30Delta, forecast60Delta }: Props) {
+export default function BottomIntelligenceStrip({ metrics, movement, cleanlinessDemand, deploymentAvailable, forecast30Delta, forecast60Delta }: Props) {
   const movColor  = movement.status === 'high' ? '#F28B4B' : movement.status === 'elevated' ? '#E8C45A' : '#2DD4A8'
-  const sanColor  = sanitationLoad > 90 ? '#EF5B5B' : sanitationLoad > 75 ? '#F28B4B' : sanitationLoad > 55 ? '#E8C45A' : '#2DD4A8'
-  const sanBadgeLabel = sanitationLoad > 75 ? 'AT RISK' : 'NORMAL'
-  const sanBadgeColor = sanColor
+
+  // Cleanliness demand from backend (derived from M1 crowd data)
+  const demandPercent = cleanlinessDemand?.percent ?? 0
+  const demandLevel = cleanlinessDemand?.level ?? 'LOW'
+  const sanColor  = demandPercent > 90 ? '#EF5B5B' : demandPercent > 75 ? '#F28B4B' : demandPercent > 55 ? '#E8C45A' : '#2DD4A8'
+  const sanBadgeLabel = deploymentAvailable ? 'DEPLOY AVAILABLE' : demandLevel === 'LOW' ? 'NORMAL' : demandLevel
+  const sanBadgeColor = deploymentAvailable ? '#EF5B5B' : sanColor
 
   return (
     <div
@@ -169,15 +174,15 @@ export default function BottomIntelligenceStrip({ metrics, movement, sanitationL
       }}
     >
       <Cell
-        overline="Live Crowd"
+        overline="M01 LIVE CCTV"
         overlineColor="#2DD4A8"
         badge={{ label: 'LIVE', color: '#2DD4A8' }}
-        metric={metrics.totalPilgrims.toLocaleString()}
+        metric={cleanlinessDemand?.current_population?.toLocaleString() ?? '—'}
         metricColor="#2DD4A8"
-        metricSub="+4.2% since last hour"
+        metricSub={`Mukam ${cleanlinessDemand?.mukamId ?? '—'} · local CCTV count`}
         details={[
-          { label: 'Active zones',  value: String(metrics.activeZones), color: '#F3F6F4' },
-          { label: 'Last updated',  value: metrics.lastUpdate,          color: '#9AA7A0' },
+          { label: 'Demand level',  value: demandLevel, color: sanColor },
+          { label: 'Last updated',  value: metrics.lastUpdate, color: '#9AA7A0' },
         ]}
         accentColor="#2DD4A8"
         delay={0.35}
@@ -202,15 +207,15 @@ export default function BottomIntelligenceStrip({ metrics, movement, sanitationL
       <Sep />
 
       <Cell
-        overline="Sanitation Demand"
+        overline="Cleanliness Demand"
         overlineColor={sanColor}
         badge={{ label: sanBadgeLabel, color: sanBadgeColor }}
-        metric={`${sanitationLoad}%`}
+        metric={`${demandPercent}%`}
         metricColor={sanColor}
-        metricSub="Current capacity load"
+        metricSub={`Based on M01 LIVE CCTV · ${cleanlinessDemand?.mukamId ?? '—'}`}
         details={[
-          { label: 'Predicted load',  value: `${sanitationPredicted}%`, color: '#EF5B5B' },
-          { label: 'Critical units',  value: '1 / 5',                    color: '#F28B4B' },
+          { label: 'Demand level',  value: demandLevel, color: sanColor },
+          { label: 'Source',        value: cleanlinessDemand ? `M01 CCTV · ${cleanlinessDemand.mukamId}` : '—', color: '#9AA7A0' },
         ]}
         accentColor={sanColor}
         delay={0.45}
