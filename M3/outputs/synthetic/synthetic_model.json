@@ -1,0 +1,43 @@
+{
+  "models": [
+    "naive",
+    "mean",
+    "ma_300",
+    "exp_smoothing",
+    "ar_linear_lag60",
+    "linear_trend",
+    "xgboost"
+  ],
+  "best_model_selection": "lowest max validation MAE across 15/30/60-min",
+  "lag_order": 60,
+  "ma_window": 300,
+  "es_alpha": 0.3,
+  "xgboost_available": true,
+  "xgboost_features": [
+    "lag_1",
+    "lag_5",
+    "lag_10",
+    "lag_30",
+    "lag_60",
+    "rolling_mean_60",
+    "rolling_std_60",
+    "trend_slope_60",
+    "elapsed_time",
+    "sin_2pi_t_120",
+    "cos_2pi_t_120"
+  ],
+  "prediction_interval": {
+    "method": "residual_std_zscore",
+    "coverage": "80%",
+    "z_score": 1.28,
+    "description": "For each zone and horizon, compute residuals from best model's validation predictions. PI half-width = 1.28 * sample_std(residuals). Applied symmetrically to forecasts."
+  },
+  "es_state_leakage_prevention": "Exponential smoothing model is rebuilt fresh (state reset) for each independent evaluation (every horizon, every zone). The nonlocal 'last' variable is scoped inside make_es() and is not shared across separate factory() calls.",
+  "data_splits": {
+    "train_seconds": 7200.0,
+    "val_seconds": 1800.0,
+    "test_seconds": 3600.0,
+    "total_seconds": 12600.0
+  },
+  "disclaimer": "SYNTHETIC MODEL \u2014 NOT TRAINED ON REAL WARI DATA"
+}

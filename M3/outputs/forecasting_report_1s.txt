@@ -1,0 +1,45 @@
+M3 ~1-SECOND FORECASTING BASELINE EXPERIMENT REPORT
+======================================================================
+
+DATA SOURCE: Output_m1/crowd_counts.csv (frame-level)
+AGGREGATION: 1-second non-overlapping windows, mean current_population
+SPLIT: chronological 80/20 per session
+HORIZON: 1-step ahead (next 1-second window)
+NOTE: This is a short-horizon prototype, NOT 15/30/60-minute forecasting.
+
+Session: crowd_cars.mp4.mov
+  Train windows: 4, Test windows: 1
+  Naive persistence -> MAE: 2.2582, RMSE: 2.2582
+  Mean baseline      -> MAE: 1.7582, RMSE: 1.7582
+  MA-3 baseline      -> MAE: 1.9649, RMSE: 1.9649
+
+Session: makkah_madinah.mp4.mov
+  Train windows: 12, Test windows: 4
+  Naive persistence -> MAE: 0.0000, RMSE: 0.0000
+  Mean baseline      -> MAE: 1.6167, RMSE: 1.6167
+  MA-3 baseline      -> MAE: 0.0000, RMSE: 0.0000
+
+Session: marathon.mp4.mov
+  Train windows: 15, Test windows: 4
+  Naive persistence -> MAE: 0.1457, RMSE: 0.1718
+  Mean baseline      -> MAE: 0.1017, RMSE: 0.1077
+  MA-3 baseline      -> MAE: 0.0857, RMSE: 0.0945
+
+Session: walking_front.mp4.mp4
+  Train windows: 93, Test windows: 24
+  Naive persistence -> MAE: 1.1759, RMSE: 1.4553
+  Mean baseline      -> MAE: 2.6583, RMSE: 2.9135
+  MA-3 baseline      -> MAE: 1.0620, RMSE: 1.1944
+
+Session: walking_top.mp4.mp4
+  Train windows: 11, Test windows: 3
+  Naive persistence -> MAE: 1.4118, RMSE: 1.6026
+  Mean baseline      -> MAE: 1.5475, RMSE: 1.8151
+  MA-3 baseline      -> MAE: 1.3451, RMSE: 1.5848
+
+Session: Wari_real_vid.mp4
+  Train windows: 92, Test windows: 24
+  Naive persistence -> MAE: 5.4809, RMSE: 5.6292
+  Mean baseline      -> MAE: 5.4565, RMSE: 5.6054
+  MA-3 baseline      -> MAE: 2.9994, RMSE: 3.2328
+

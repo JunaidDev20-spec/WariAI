@@ -1,0 +1,264 @@
+{
+  "DISCLAIMER": "SYNTHETIC/DEMO DATA ONLY \u2014 NOT REAL WARI DATA",
+  "forecasts": [
+    {
+      "source": "SYNTHETIC_M3_DEMO",
+      "zone_id": "zone_high",
+      "forecast_generated_at": "2026-08-29T05:00:00Z",
+      "data_label": "SYNTHETIC/DEMO \u2014 NOT REAL WARI DATA",
+      "data_source": "outputs\\synthetic_population_timeseries.csv",
+      "current_population": 12.9518,
+      "forecast_15min": 11.6529,
+      "forecast_30min": 11.6555,
+      "forecast_60min": 11.6555,
+      "expected_average_population_60min": 11.7123,
+      "expected_peak_population_60min": 17.5368,
+      "prediction_interval": {
+        "coverage": "80%",
+        "method": "residual_std_zscore",
+        "z_score": 1.28,
+        "derived_from": "validation_residuals_best_model",
+        "half_width_15min": 4.6109,
+        "half_width_30min": 4.8261,
+        "half_width_60min": 4.8261,
+        "residual_std_15min": 3.6022,
+        "residual_std_30min": 3.7704,
+        "residual_std_60min": 3.7704
+      },
+      "model": "ar_linear_lag60",
+      "metrics": {
+        "15min": {
+          "mae": 3.9411,
+          "rmse": 4.7769
+        },
+        "30min": {
+          "mae": 3.7601,
+          "rmse": 4.6068
+        },
+        "60min": {
+          "mae": 3.456,
+          "rmse": 4.253
+        }
+      },
+      "validation": {
+        "best_model_selection_criterion": "lowest_max_MAE_across_horizons",
+        "max_val_mae_across_horizons": 3.0099,
+        "15min": {
+          "mae": 2.901,
+          "rmse": 3.6385
+        },
+        "30min": {
+          "mae": 3.0099,
+          "rmse": 3.7741
+        },
+        "60min": {
+          "mae": 3.0099,
+          "rmse": 3.7741
+        }
+      },
+      "notes": "SYNTHETIC/DEMO results only. Does not validate forecasting on real Wari data. Peak = max predicted population in 60-min horizon. PI: 80% residual-based (z=1.28*std_val_residuals)."
+    },
+    {
+      "source": "SYNTHETIC_M3_DEMO",
+      "zone_id": "zone_low",
+      "forecast_generated_at": "2026-08-29T05:00:00Z",
+      "data_label": "SYNTHETIC/DEMO \u2014 NOT REAL WARI DATA",
+      "data_source": "outputs\\synthetic_population_timeseries.csv",
+      "current_population": 1.4409,
+      "forecast_15min": 2.1554,
+      "forecast_30min": 2.1554,
+      "forecast_60min": 2.1554,
+      "expected_average_population_60min": 2.1558,
+      "expected_peak_population_60min": 2.7328,
+      "prediction_interval": {
+        "coverage": "80%",
+        "method": "residual_std_zscore",
+        "z_score": 1.28,
+        "derived_from": "validation_residuals_best_model",
+        "half_width_15min": 1.0666,
+        "half_width_30min": 1.1764,
+        "half_width_60min": 1.1764,
+        "residual_std_15min": 0.8333,
+        "residual_std_30min": 0.9191,
+        "residual_std_60min": 0.9191
+      },
+      "model": "ar_linear_lag60",
+      "metrics": {
+        "15min": {
+          "mae": 0.6586,
+          "rmse": 0.8692
+        },
+        "30min": {
+          "mae": 0.7318,
+          "rmse": 0.9636
+        },
+        "60min": {
+          "mae": 0.8317,
+          "rmse": 1.0818
+        }
+      },
+      "validation": {
+        "best_model_selection_criterion": "lowest_max_MAE_across_horizons",
+        "max_val_mae_across_horizons": 0.7229,
+        "15min": {
+          "mae": 0.6382,
+          "rmse": 0.8339
+        },
+        "30min": {
+          "mae": 0.7229,
+          "rmse": 0.9196
+        },
+        "60min": {
+          "mae": 0.7229,
+          "rmse": 0.9196
+        }
+      },
+      "notes": "SYNTHETIC/DEMO results only. Does not validate forecasting on real Wari data. Peak = max predicted population in 60-min horizon. PI: 80% residual-based (z=1.28*std_val_residuals)."
+    },
+    {
+      "source": "SYNTHETIC_M3_DEMO",
+      "zone_id": "zone_medium",
+      "forecast_generated_at": "2026-08-29T05:00:00Z",
+      "data_label": "SYNTHETIC/DEMO \u2014 NOT REAL WARI DATA",
+      "data_source": "outputs\\synthetic_population_timeseries.csv",
+      "current_population": 4.1873,
+      "forecast_15min": 9.0121,
+      "forecast_30min": 8.0604,
+      "forecast_60min": 7.9614,
+      "expected_average_population_60min": 8.4436,
+      "expected_peak_population_60min": 12.0518,
+      "prediction_interval": {
+        "coverage": "80%",
+        "method": "residual_std_zscore",
+        "z_score": 1.28,
+        "derived_from": "validation_residuals_best_model",
+        "half_width_15min": 3.2747,
+        "half_width_30min": 2.9828,
+        "half_width_60min": 2.9828,
+        "residual_std_15min": 2.5584,
+        "residual_std_30min": 2.3303,
+        "residual_std_60min": 2.3303
+      },
+      "model": "xgboost",
+      "metrics": {
+        "15min": {
+          "mae": 2.7082,
+          "rmse": 3.1697
+        },
+        "30min": {
+          "mae": 2.3675,
+          "rmse": 2.8714
+        },
+        "60min": {
+          "mae": 2.2703,
+          "rmse": 2.7148
+        }
+      },
+      "validation": {
+        "best_model_selection_criterion": "lowest_max_MAE_across_horizons",
+        "max_val_mae_across_horizons": 2.128,
+        "15min": {
+          "mae": 2.053,
+          "rmse": 2.7277
+        },
+        "30min": {
+          "mae": 2.128,
+          "rmse": 2.6969
+        },
+        "60min": {
+          "mae": 2.128,
+          "rmse": 2.6969
+        }
+      },
+      "notes": "SYNTHETIC/DEMO results only. Does not validate forecasting on real Wari data. Peak = max predicted population in 60-min horizon. PI: 80% residual-based (z=1.28*std_val_residuals)."
+    },
+    {
+      "source": "SYNTHETIC_M3_DEMO",
+      "zone_id": "zone_very_high",
+      "forecast_generated_at": "2026-08-29T05:00:00Z",
+      "data_label": "SYNTHETIC/DEMO \u2014 NOT REAL WARI DATA",
+      "data_source": "outputs\\synthetic_population_timeseries.csv",
+      "current_population": 280.576,
+      "forecast_15min": 396.2095,
+      "forecast_30min": 381.4596,
+      "forecast_60min": 375.464,
+      "expected_average_population_60min": 387.854,
+      "expected_peak_population_60min": 556.3949,
+      "prediction_interval": {
+        "coverage": "80%",
+        "method": "residual_std_zscore",
+        "z_score": 1.28,
+        "derived_from": "validation_residuals_best_model",
+        "half_width_15min": 109.5752,
+        "half_width_30min": 117.1396,
+        "half_width_60min": 117.1396,
+        "residual_std_15min": 85.6057,
+        "residual_std_30min": 91.5153,
+        "residual_std_60min": 91.5153
+      },
+      "model": "xgboost",
+      "metrics": {
+        "15min": {
+          "mae": 81.1299,
+          "rmse": 96.54
+        },
+        "30min": {
+          "mae": 75.2876,
+          "rmse": 92.2598
+        },
+        "60min": {
+          "mae": 74.5794,
+          "rmse": 93.9603
+        }
+      },
+      "validation": {
+        "best_model_selection_criterion": "lowest_max_MAE_across_horizons",
+        "max_val_mae_across_horizons": 91.7652,
+        "15min": {
+          "mae": 84.0927,
+          "rmse": 102.9816
+        },
+        "30min": {
+          "mae": 91.7652,
+          "rmse": 111.0282
+        },
+        "60min": {
+          "mae": 91.7652,
+          "rmse": 111.0282
+        }
+      },
+      "notes": "SYNTHETIC/DEMO results only. Does not validate forecasting on real Wari data. Peak = max predicted population in 60-min horizon. PI: 80% residual-based (z=1.28*std_val_residuals)."
+    }
+  ],
+  "meta": {
+    "data_source": "outputs\\synthetic_population_timeseries.csv",
+    "data_label": "SYNTHETIC",
+    "sampling_interval_seconds": 1.0,
+    "train_duration_seconds": 7200.0,
+    "val_duration_seconds": 1800.0,
+    "test_duration_seconds": 3600.0,
+    "forecast_horizons_minutes": [
+      15,
+      30,
+      60
+    ],
+    "models_evaluated": [
+      "naive",
+      "mean",
+      "ma_300",
+      "exp_smoothing",
+      "ar_linear_lag60",
+      "linear_trend",
+      "xgboost"
+    ],
+    "best_model_selection": "lowest max validation MAE across 15/30/60-min",
+    "prediction_interval_method": "80% residual-based: z=1.28 * std(validation residuals) from best model per zone per horizon",
+    "peak_definition": "maximum predicted population within the 60-min forecast horizon",
+    "supported_horizons": [
+      "15 minutes",
+      "30 minutes",
+      "60 minutes"
+    ],
+    "validation_note": "Long-horizon results validated on synthetic data only. Test set held out during training and model selection."
+  }
+}

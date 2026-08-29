@@ -1,0 +1,7 @@
+video_name,train_windows,test_windows,naive_mae,naive_rmse,mean_mae,mean_rmse,ma3_mae,ma3_rmse
+crowd_cars.mp4.mov,4,1,2.2582,2.2582,1.7582,1.7582,1.9649,1.9649
+makkah_madinah.mp4.mov,12,4,0.0,0.0,1.6167,1.6167,0.0,0.0
+marathon.mp4.mov,15,4,0.1457,0.1718,0.1017,0.1077,0.0857,0.0945
+walking_front.mp4.mp4,93,24,1.1759,1.4553,2.6583,2.9135,1.062,1.1944
+walking_top.mp4.mp4,11,3,1.4118,1.6026,1.5475,1.8151,1.3451,1.5848
+Wari_real_vid.mp4,92,24,5.4809,5.6292,5.4565,5.6054,2.9994,3.2328

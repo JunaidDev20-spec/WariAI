@@ -1,0 +1,229 @@
+{
+  "m4_label": "SYNTHETIC_DEMO",
+  "total_forecasts": 4,
+  "risk_distribution": {
+    "LOW": 3,
+    "MODERATE": 0,
+    "HIGH": 1,
+    "CRITICAL": 0
+  },
+  "action_distribution": {
+    "PROCEED": 3,
+    "MONITOR": 0,
+    "PREPARE": 1,
+    "RESTRICT": 0
+  },
+  "risk_thresholds_used": {
+    "LOW": 0,
+    "MODERATE": 100,
+    "HIGH": 500,
+    "CRITICAL": 1000
+  },
+  "note": "Thresholds are DEMO values only and NOT scientifically validated.",
+  "decisions": [
+    {
+      "data_status": "SYNTHETIC/DEMO \u2014 NOT REAL WARI DATA",
+      "source": "SYNTHETIC_M3_DEMO",
+      "zone": "zone_high",
+      "current_population": 12.9518,
+      "forecast_15min": 11.6529,
+      "forecast_30min": 11.6555,
+      "forecast_60min": 11.6555,
+      "expected_average_population": 11.7123,
+      "expected_peak_population": 17.5368,
+      "confidence": "NOT_COMPUTED",
+      "prediction_interval": {
+        "coverage": "80%",
+        "method": "residual_std_zscore",
+        "z_score": 1.28,
+        "derived_from": "validation_residuals_best_model",
+        "half_width_15min": 4.6109,
+        "half_width_30min": 4.8261,
+        "half_width_60min": 4.8261,
+        "residual_std_15min": 3.6022,
+        "residual_std_30min": 3.7704,
+        "residual_std_60min": 3.7704
+      },
+      "model": "ar_linear_lag60",
+      "metrics": {
+        "15min": {
+          "mae": 3.9411,
+          "rmse": 4.7769
+        },
+        "30min": {
+          "mae": 3.7601,
+          "rmse": 4.6068
+        },
+        "60min": {
+          "mae": 3.456,
+          "rmse": 4.253
+        }
+      },
+      "validation_status": "UNKNOWN",
+      "risk_level": "LOW",
+      "decision": "PROCEED",
+      "reason": "source=SYNTHETIC_M3_DEMO | zone=zone_high | current_population=12.9518 | forecast_15min=11.6529 | forecast_30min=11.6555 | forecast_60min=11.6555 | expected_avg_60min=11.7123 | expected_peak_60min=17.5368 | risk_population_used=17.5368 | confidence=NOT_COMPUTED | model=ar_linear_lag60 | validation_status=UNKNOWN | Using expected_peak_population_60min for risk classification",
+      "risk_thresholds_used": {
+        "LOW": 0,
+        "MODERATE": 100,
+        "HIGH": 500,
+        "CRITICAL": 1000
+      },
+      "note": "Thresholds are DEMO values. Real thresholds require domain expertise.",
+      "m4_generated_at": "2026-08-29T08:00:00Z"
+    },
+    {
+      "data_status": "SYNTHETIC/DEMO \u2014 NOT REAL WARI DATA",
+      "source": "SYNTHETIC_M3_DEMO",
+      "zone": "zone_low",
+      "current_population": 1.4409,
+      "forecast_15min": 2.1554,
+      "forecast_30min": 2.1554,
+      "forecast_60min": 2.1554,
+      "expected_average_population": 2.1558,
+      "expected_peak_population": 2.7328,
+      "confidence": "NOT_COMPUTED",
+      "prediction_interval": {
+        "coverage": "80%",
+        "method": "residual_std_zscore",
+        "z_score": 1.28,
+        "derived_from": "validation_residuals_best_model",
+        "half_width_15min": 1.0666,
+        "half_width_30min": 1.1764,
+        "half_width_60min": 1.1764,
+        "residual_std_15min": 0.8333,
+        "residual_std_30min": 0.9191,
+        "residual_std_60min": 0.9191
+      },
+      "model": "ar_linear_lag60",
+      "metrics": {
+        "15min": {
+          "mae": 0.6586,
+          "rmse": 0.8692
+        },
+        "30min": {
+          "mae": 0.7318,
+          "rmse": 0.9636
+        },
+        "60min": {
+          "mae": 0.8317,
+          "rmse": 1.0818
+        }
+      },
+      "validation_status": "UNKNOWN",
+      "risk_level": "LOW",
+      "decision": "PROCEED",
+      "reason": "source=SYNTHETIC_M3_DEMO | zone=zone_low | current_population=1.4409 | forecast_15min=2.1554 | forecast_30min=2.1554 | forecast_60min=2.1554 | expected_avg_60min=2.1558 | expected_peak_60min=2.7328 | risk_population_used=2.7328 | confidence=NOT_COMPUTED | model=ar_linear_lag60 | validation_status=UNKNOWN | Using expected_peak_population_60min for risk classification",
+      "risk_thresholds_used": {
+        "LOW": 0,
+        "MODERATE": 100,
+        "HIGH": 500,
+        "CRITICAL": 1000
+      },
+      "note": "Thresholds are DEMO values. Real thresholds require domain expertise.",
+      "m4_generated_at": "2026-08-29T08:00:00Z"
+    },
+    {
+      "data_status": "SYNTHETIC/DEMO \u2014 NOT REAL WARI DATA",
+      "source": "SYNTHETIC_M3_DEMO",
+      "zone": "zone_medium",
+      "current_population": 4.1873,
+      "forecast_15min": 9.0121,
+      "forecast_30min": 8.0604,
+      "forecast_60min": 7.9614,
+      "expected_average_population": 8.4436,
+      "expected_peak_population": 12.0518,
+      "confidence": "NOT_COMPUTED",
+      "prediction_interval": {
+        "coverage": "80%",
+        "method": "residual_std_zscore",
+        "z_score": 1.28,
+        "derived_from": "validation_residuals_best_model",
+        "half_width_15min": 3.2747,
+        "half_width_30min": 2.9828,
+        "half_width_60min": 2.9828,
+        "residual_std_15min": 2.5584,
+        "residual_std_30min": 2.3303,
+        "residual_std_60min": 2.3303
+      },
+      "model": "xgboost",
+      "metrics": {
+        "15min": {
+          "mae": 2.7082,
+          "rmse": 3.1697
+        },
+        "30min": {
+          "mae": 2.3675,
+          "rmse": 2.8714
+        },
+        "60min": {
+          "mae": 2.2703,
+          "rmse": 2.7148
+        }
+      },
+      "validation_status": "UNKNOWN",
+      "risk_level": "LOW",
+      "decision": "PROCEED",
+      "reason": "source=SYNTHETIC_M3_DEMO | zone=zone_medium | current_population=4.1873 | forecast_15min=9.0121 | forecast_30min=8.0604 | forecast_60min=7.9614 | expected_avg_60min=8.4436 | expected_peak_60min=12.0518 | risk_population_used=12.0518 | confidence=NOT_COMPUTED | model=xgboost | validation_status=UNKNOWN | Using expected_peak_population_60min for risk classification",
+      "risk_thresholds_used": {
+        "LOW": 0,
+        "MODERATE": 100,
+        "HIGH": 500,
+        "CRITICAL": 1000
+      },
+      "note": "Thresholds are DEMO values. Real thresholds require domain expertise.",
+      "m4_generated_at": "2026-08-29T08:00:00Z"
+    },
+    {
+      "data_status": "SYNTHETIC/DEMO \u2014 NOT REAL WARI DATA",
+      "source": "SYNTHETIC_M3_DEMO",
+      "zone": "zone_very_high",
+      "current_population": 280.576,
+      "forecast_15min": 396.2095,
+      "forecast_30min": 381.4596,
+      "forecast_60min": 375.464,
+      "expected_average_population": 387.854,
+      "expected_peak_population": 556.3949,
+      "confidence": "NOT_COMPUTED",
+      "prediction_interval": {
+        "coverage": "80%",
+        "method": "residual_std_zscore",
+        "z_score": 1.28,
+        "derived_from": "validation_residuals_best_model",
+        "half_width_15min": 109.5752,
+        "half_width_30min": 117.1396,
+        "half_width_60min": 117.1396,
+        "residual_std_15min": 85.6057,
+        "residual_std_30min": 91.5153,
+        "residual_std_60min": 91.5153
+      },
+      "model": "xgboost",
+      "metrics": {
+        "15min": {
+          "mae": 81.1299,
+          "rmse": 96.54
+        },
+        "30min": {
+          "mae": 75.2876,
+          "rmse": 92.2598
+        },
+        "60min": {
+          "mae": 74.5794,
+          "rmse": 93.9603
+        }
+      },
+      "validation_status": "UNKNOWN",
+      "risk_level": "HIGH",
+      "decision": "PREPARE",
+      "reason": "source=SYNTHETIC_M3_DEMO | zone=zone_very_high | current_population=280.576 | forecast_15min=396.2095 | forecast_30min=381.4596 | forecast_60min=375.464 | expected_avg_60min=387.854 | expected_peak_60min=556.3949 | risk_population_used=556.3949 | confidence=NOT_COMPUTED | model=xgboost | validation_status=UNKNOWN | Using expected_peak_population_60min for risk classification",
+      "risk_thresholds_used": {
+        "LOW": 0,
+        "MODERATE": 100,
+        "HIGH": 500,
+        "CRITICAL": 1000
+      },
+      "note": "Thresholds are DEMO values. Real thresholds require domain expertise.",
+      "m4_generated_at": "2026-08-29T08:00:00Z"
+    }
+  ]
+}

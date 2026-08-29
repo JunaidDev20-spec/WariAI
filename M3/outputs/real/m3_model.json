@@ -1,0 +1,113 @@
+{
+  "models": [
+    {
+      "video_name": "makkah_madinah.mp4.mov",
+      "best_model": "naive",
+      "candidates_evaluated": [
+        "naive",
+        "mean",
+        "ma3",
+        "ar_linear",
+        "xgboost"
+      ],
+      "xgboost_available": true,
+      "train_windows": 9,
+      "val_windows": 3,
+      "test_windows": 4
+    },
+    {
+      "video_name": "marathon.mp4.mov",
+      "best_model": "naive",
+      "candidates_evaluated": [
+        "naive",
+        "mean",
+        "ma3",
+        "ar_linear",
+        "xgboost"
+      ],
+      "xgboost_available": true,
+      "train_windows": 11,
+      "val_windows": 3,
+      "test_windows": 5
+    },
+    {
+      "video_name": "walking_front.mp4.mp4",
+      "best_model": "mean",
+      "candidates_evaluated": [
+        "naive",
+        "mean",
+        "ma3",
+        "ar_linear",
+        "xgboost"
+      ],
+      "xgboost_available": true,
+      "train_windows": 70,
+      "val_windows": 23,
+      "test_windows": 24
+    },
+    {
+      "video_name": "walking_top.mp4.mp4",
+      "best_model": "naive",
+      "candidates_evaluated": [
+        "naive",
+        "mean",
+        "ma3",
+        "ar_linear",
+        "xgboost"
+      ],
+      "xgboost_available": true,
+      "train_windows": 8,
+      "val_windows": 2,
+      "test_windows": 4
+    },
+    {
+      "video_name": "Wari_real_vid.mp4",
+      "best_model": "ar_linear",
+      "candidates_evaluated": [
+        "naive",
+        "mean",
+        "ma3",
+        "ar_linear",
+        "xgboost"
+      ],
+      "xgboost_available": true,
+      "train_windows": 69,
+      "val_windows": 23,
+      "test_windows": 24
+    }
+  ],
+  "candidates": [
+    "naive",
+    "mean",
+    "ma3",
+    "ar_linear",
+    "xgboost"
+  ],
+  "xgboost_available": true,
+  "xgboost_features": [
+    "lag_1",
+    "lag_2",
+    "lag_3",
+    "lag_5",
+    "rolling_mean_5",
+    "rolling_std_5",
+    "trend_slope_5",
+    "elapsed_time",
+    "sin_2pi_t_120",
+    "cos_2pi_t_120"
+  ],
+  "lag_order": 3,
+  "prediction_interval": {
+    "method": "residual_std_zscore",
+    "coverage": "80%",
+    "z_score": 1.28,
+    "description": "80% prediction interval half-width = 1.28 * sample_std(validation residuals) from the selected best model. Applied symmetrically to the point forecast."
+  },
+  "split": {
+    "train_fraction": 0.6,
+    "validation_fraction": 0.2,
+    "test_fraction": 0.2,
+    "method": "chronological (no shuffle)"
+  },
+  "m2_status": "NOT USED \u2014 incompatibility documented"
+}

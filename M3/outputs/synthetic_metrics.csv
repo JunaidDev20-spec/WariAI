@@ -1,0 +1,5 @@
+zone_id,best_model,best_model_selection,val_max_mae_across_horizons,val_mae_15min,val_rmse_15min,test_mae_15min,test_rmse_15min,val_mae_30min,val_rmse_30min,test_mae_30min,test_rmse_30min,val_mae_60min,val_rmse_60min,test_mae_60min,test_rmse_60min
+zone_high,ar_linear_lag60,lowest_max_MAE_across_15_30_60min_val,3.0099,2.901,3.6385,3.9411,4.7769,3.0099,3.7741,3.7601,4.6068,3.0099,3.7741,3.456,4.253
+zone_low,ar_linear_lag60,lowest_max_MAE_across_15_30_60min_val,0.7229,0.6382,0.8339,0.6586,0.8692,0.7229,0.9196,0.7318,0.9636,0.7229,0.9196,0.8317,1.0818
+zone_medium,xgboost,lowest_max_MAE_across_15_30_60min_val,2.128,2.053,2.7277,2.7082,3.1697,2.128,2.6969,2.3675,2.8714,2.128,2.6969,2.2703,2.7148
+zone_very_high,xgboost,lowest_max_MAE_across_15_30_60min_val,91.7652,84.0927,102.9816,81.1299,96.54,91.7652,111.0282,75.2876,92.2598,91.7652,111.0282,74.5794,93.9603
