@@ -1,0 +1,5 @@
+zone_id,description,rows,duration_seconds,population_min,population_max,population_mean,population_std
+zone_low,Low traffic zone (ref: makkah_madinah/marathon),12600,12600,0.0,7.7382,2.286,1.0357
+zone_medium,Medium traffic zone (ref: Wari_real_vid),12600,12600,0.0,23.5773,6.0778,3.1023
+zone_high,High traffic zone (ref: walking_front/walking_top),12600,12600,1.4833,28.6485,11.5237,4.1221
+zone_very_high,Very high traffic zone (ref: Output_m2 test_crowd_counts),12600,12600,16.0711,953.1341,355.9542,143.1652

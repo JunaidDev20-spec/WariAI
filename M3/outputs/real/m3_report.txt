@@ -1,0 +1,49 @@
+M3 REAL FORECASTING REPORT
+======================================================================
+
+Data source M1: Output_m1\crowd_counts.csv
+M2 source: Output_m2\test_crowd_counts.csv
+
+M2 ALIGNMENT ASSESSMENT:
+  M2 test_crowd_counts.csv: NOT COMPATIBLE. Only frame_number and people_count columns; no timestamps, video_name, or zone identifiers. Cannot map M2 frames to M1 sessions without unsupported assumptions. M2 test_population.csv exists but comes from a different project (GeoAI) and lacks temporal/source alignment with M1 sessions. M2 is NOT used in M3 forecasting.
+
+FORECASTING SETUP:
+  Aggregation: 1.0s non-overlapping windows
+  Target: current_population (mean per window)
+  Split: chronological 60/20/20 (train/val/test)
+  Model selection: VALIDATION SET ONLY
+  Final evaluation: TEST SET ONLY
+  XGBoost available: True
+
+RESULTS:
+
+  makkah_madinah.mp4.mov:
+    Train=9, Val=3, Test=4
+    Selected model: naive (val MAE=1.52)
+    Best model test MAE: 1.52, RMSE: 1.52
+
+  marathon.mp4.mov:
+    Train=11, Val=3, Test=5
+    Selected model: naive (val MAE=0.08)
+    Best model test MAE: 0.0926, RMSE: 0.1001
+
+  walking_front.mp4.mp4:
+    Train=70, Val=23, Test=24
+    Selected model: mean (val MAE=1.3737)
+    Best model test MAE: 2.6711, RMSE: 2.9252
+
+  walking_top.mp4.mp4:
+    Train=8, Val=2, Test=4
+    Selected model: naive (val MAE=0.22)
+    Best model test MAE: 1.0588, RMSE: 1.3797
+
+  Wari_real_vid.mp4:
+    Train=69, Val=23, Test=24
+    Selected model: ar_linear (val MAE=2.3201)
+    Best model test MAE: 5.9561, RMSE: 6.0892
+
+HORIZONS:
+  1 second: VALIDATED on real test set
+  15 minutes: NOT VALIDATED — INSUFFICIENT REAL TEMPORAL DATA
+  30 minutes: NOT VALIDATED — INSUFFICIENT REAL TEMPORAL DATA
+  60 minutes: NOT VALIDATED — INSUFFICIENT REAL TEMPORAL DATA

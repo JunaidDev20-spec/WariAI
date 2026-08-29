@@ -1,0 +1,240 @@
+{
+  "m4_label": "REAL",
+  "total_forecasts": 5,
+  "risk_distribution": {
+    "LOW": 5,
+    "MODERATE": 0,
+    "HIGH": 0,
+    "CRITICAL": 0
+  },
+  "action_distribution": {
+    "PROCEED": 5,
+    "MONITOR": 0,
+    "PREPARE": 0,
+    "RESTRICT": 0
+  },
+  "risk_thresholds_used": {
+    "LOW": 0,
+    "MODERATE": 100,
+    "HIGH": 500,
+    "CRITICAL": 1000
+  },
+  "note": "Thresholds are DEMO values only and NOT scientifically validated.",
+  "decisions": [
+    {
+      "data_status": "REAL",
+      "source": "M1_REAL_CCTV",
+      "zone": "makkah_madinah.mp4.mov",
+      "current_population": 0.0,
+      "forecast_15min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "forecast_30min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "forecast_60min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "expected_average_population": 1.52,
+      "expected_peak_population": 1.52,
+      "confidence": 0.0,
+      "prediction_interval": {
+        "coverage": "80%",
+        "method": "80% residual-based (z=1.28*std_val_residuals)",
+        "z_score": 1.28,
+        "half_width": 0.0,
+        "residual_std": 0.0,
+        "note": "Derived from validation residuals of selected model. 15/30/60-min forecasts are NOT VALIDATED."
+      },
+      "model": "naive",
+      "metrics": {
+        "validation": {
+          "mae": 1.52,
+          "rmse": 1.52
+        },
+        "test": {
+          "mae": 1.52,
+          "rmse": 1.52
+        }
+      },
+      "validation_status": "REAL_1S_HORIZON_VALIDATED",
+      "risk_level": "LOW",
+      "decision": "PROCEED",
+      "reason": "source=M1_REAL_CCTV | zone=makkah_madinah.mp4.mov | current_population=0.0 | forecast_15min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | forecast_30min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | forecast_60min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | expected_avg_60min=1.52 | expected_peak_60min=1.52 | risk_population_used=0.0 | confidence=0.0 | model=naive | validation_status=REAL_1S_HORIZON_VALIDATED | 15/30/60-min forecasts NOT VALIDATED \u2014 using current_population for risk classification",
+      "risk_thresholds_used": {
+        "LOW": 0,
+        "MODERATE": 100,
+        "HIGH": 500,
+        "CRITICAL": 1000
+      },
+      "note": "Thresholds are DEMO values. Real thresholds require domain expertise.",
+      "m4_generated_at": "2026-08-29T08:00:00Z"
+    },
+    {
+      "data_status": "REAL",
+      "source": "M1_REAL_CCTV",
+      "zone": "marathon.mp4.mov",
+      "current_population": 0.1429,
+      "forecast_15min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "forecast_30min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "forecast_60min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "expected_average_population": 0.12,
+      "expected_peak_population": 0.12,
+      "confidence": 0.1355,
+      "prediction_interval": {
+        "coverage": "80%",
+        "method": "80% residual-based (z=1.28*std_val_residuals)",
+        "z_score": 1.28,
+        "half_width": 0.1355,
+        "residual_std": 0.1058,
+        "note": "Derived from validation residuals of selected model. 15/30/60-min forecasts are NOT VALIDATED."
+      },
+      "model": "naive",
+      "metrics": {
+        "validation": {
+          "mae": 0.08,
+          "rmse": 0.0864
+        },
+        "test": {
+          "mae": 0.0926,
+          "rmse": 0.1001
+        }
+      },
+      "validation_status": "REAL_1S_HORIZON_VALIDATED",
+      "risk_level": "LOW",
+      "decision": "PROCEED",
+      "reason": "source=M1_REAL_CCTV | zone=marathon.mp4.mov | current_population=0.1429 | forecast_15min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | forecast_30min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | forecast_60min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | expected_avg_60min=0.12 | expected_peak_60min=0.12 | risk_population_used=0.1429 | confidence=0.1355 | model=naive | validation_status=REAL_1S_HORIZON_VALIDATED | 15/30/60-min forecasts NOT VALIDATED \u2014 using current_population for risk classification",
+      "risk_thresholds_used": {
+        "LOW": 0,
+        "MODERATE": 100,
+        "HIGH": 500,
+        "CRITICAL": 1000
+      },
+      "note": "Thresholds are DEMO values. Real thresholds require domain expertise.",
+      "m4_generated_at": "2026-08-29T08:00:00Z"
+    },
+    {
+      "data_status": "REAL",
+      "source": "M1_REAL_CCTV",
+      "zone": "walking_front.mp4.mp4",
+      "current_population": 10.1538,
+      "forecast_15min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "forecast_30min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "forecast_60min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "expected_average_population": 11.2052,
+      "expected_peak_population": 11.2052,
+      "confidence": 2.1225,
+      "prediction_interval": {
+        "coverage": "80%",
+        "method": "80% residual-based (z=1.28*std_val_residuals)",
+        "z_score": 1.28,
+        "half_width": 2.1225,
+        "residual_std": 1.6582,
+        "note": "Derived from validation residuals of selected model. 15/30/60-min forecasts are NOT VALIDATED."
+      },
+      "model": "mean",
+      "metrics": {
+        "validation": {
+          "mae": 1.3737,
+          "rmse": 1.6226
+        },
+        "test": {
+          "mae": 2.6711,
+          "rmse": 2.9252
+        }
+      },
+      "validation_status": "REAL_1S_HORIZON_VALIDATED",
+      "risk_level": "LOW",
+      "decision": "PROCEED",
+      "reason": "source=M1_REAL_CCTV | zone=walking_front.mp4.mp4 | current_population=10.1538 | forecast_15min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | forecast_30min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | forecast_60min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | expected_avg_60min=11.2052 | expected_peak_60min=11.2052 | risk_population_used=10.1538 | confidence=2.1225 | model=mean | validation_status=REAL_1S_HORIZON_VALIDATED | 15/30/60-min forecasts NOT VALIDATED \u2014 using current_population for risk classification",
+      "risk_thresholds_used": {
+        "LOW": 0,
+        "MODERATE": 100,
+        "HIGH": 500,
+        "CRITICAL": 1000
+      },
+      "note": "Thresholds are DEMO values. Real thresholds require domain expertise.",
+      "m4_generated_at": "2026-08-29T08:00:00Z"
+    },
+    {
+      "data_status": "REAL",
+      "source": "M1_REAL_CCTV",
+      "zone": "walking_top.mp4.mp4",
+      "current_population": 16.2353,
+      "forecast_15min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "forecast_30min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "forecast_60min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "expected_average_population": 14.4,
+      "expected_peak_population": 14.4,
+      "confidence": 0.2534,
+      "prediction_interval": {
+        "coverage": "80%",
+        "method": "80% residual-based (z=1.28*std_val_residuals)",
+        "z_score": 1.28,
+        "half_width": 0.2534,
+        "residual_std": 0.198,
+        "note": "Derived from validation residuals of selected model. 15/30/60-min forecasts are NOT VALIDATED."
+      },
+      "model": "naive",
+      "metrics": {
+        "validation": {
+          "mae": 0.22,
+          "rmse": 0.2608
+        },
+        "test": {
+          "mae": 1.0588,
+          "rmse": 1.3797
+        }
+      },
+      "validation_status": "REAL_1S_HORIZON_VALIDATED",
+      "risk_level": "LOW",
+      "decision": "PROCEED",
+      "reason": "source=M1_REAL_CCTV | zone=walking_top.mp4.mp4 | current_population=16.2353 | forecast_15min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | forecast_30min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | forecast_60min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | expected_avg_60min=14.4 | expected_peak_60min=14.4 | risk_population_used=16.2353 | confidence=0.2534 | model=naive | validation_status=REAL_1S_HORIZON_VALIDATED | 15/30/60-min forecasts NOT VALIDATED \u2014 using current_population for risk classification",
+      "risk_thresholds_used": {
+        "LOW": 0,
+        "MODERATE": 100,
+        "HIGH": 500,
+        "CRITICAL": 1000
+      },
+      "note": "Thresholds are DEMO values. Real thresholds require domain expertise.",
+      "m4_generated_at": "2026-08-29T08:00:00Z"
+    },
+    {
+      "data_status": "REAL",
+      "source": "M1_REAL_CCTV",
+      "zone": "Wari_real_vid.mp4",
+      "current_population": 8.5,
+      "forecast_15min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "forecast_30min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "forecast_60min": "NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA",
+      "expected_average_population": 1.1444,
+      "expected_peak_population": 1.1444,
+      "confidence": 3.0501,
+      "prediction_interval": {
+        "coverage": "80%",
+        "method": "80% residual-based (z=1.28*std_val_residuals)",
+        "z_score": 1.28,
+        "half_width": 3.0501,
+        "residual_std": 2.3829,
+        "note": "Derived from validation residuals of selected model. 15/30/60-min forecasts are NOT VALIDATED."
+      },
+      "model": "ar_linear",
+      "metrics": {
+        "validation": {
+          "mae": 2.3201,
+          "rmse": 2.9031
+        },
+        "test": {
+          "mae": 5.9561,
+          "rmse": 6.0892
+        }
+      },
+      "validation_status": "REAL_1S_HORIZON_VALIDATED",
+      "risk_level": "LOW",
+      "decision": "PROCEED",
+      "reason": "source=M1_REAL_CCTV | zone=Wari_real_vid.mp4 | current_population=8.5 | forecast_15min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | forecast_30min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | forecast_60min=NOT VALIDATED \u2014 INSUFFICIENT REAL TEMPORAL DATA | expected_avg_60min=1.1444 | expected_peak_60min=1.1444 | risk_population_used=8.5 | confidence=3.0501 | model=ar_linear | validation_status=REAL_1S_HORIZON_VALIDATED | 15/30/60-min forecasts NOT VALIDATED \u2014 using current_population for risk classification",
+      "risk_thresholds_used": {
+        "LOW": 0,
+        "MODERATE": 100,
+        "HIGH": 500,
+        "CRITICAL": 1000
+      },
+      "note": "Thresholds are DEMO values. Real thresholds require domain expertise.",
+      "m4_generated_at": "2026-08-29T08:00:00Z"
+    }
+  ]
+}

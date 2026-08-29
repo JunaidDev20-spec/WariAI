@@ -1,0 +1,64 @@
+M3 SYNTHETIC LONG-HORIZON FORECASTING REPORT
+======================================================================
+
+DISCLAIMER: ALL RESULTS ARE SYNTHETIC/DEMO ONLY.
+            This does NOT validate forecasting on real Wari data.
+
+Data source: outputs\synthetic_population_timeseries.csv
+Zones: 4
+Dataset duration per zone: 210 minutes
+Train: 120 min | Val: 30 min | Test: 60 min
+Sampling interval: 1 second(s)
+Forecast horizons: [15, 30, 60] minutes
+Models: naive, mean, ma_300, exp_smoothing, ar_linear_lag60, linear_trend, xgboost
+XGBoost available: True
+
+BEST MODEL SELECTION: lowest max validation MAE across 15/30/60-min
+
+PREDICTION INTERVALS: 80% residual-based (z=1.28 * std of validation residuals from best model)
+
+RESULTS:
+
+Zone: zone_high
+  Best model: ar_linear_lag60
+  Selection criterion: lowest_max_MAE_across_15_30_60min_val
+  Max val MAE across horizons: 3.0099
+  Val  (15min) -> MAE: 2.901, RMSE: 3.6385
+  Test (15min) -> MAE: 3.9411, RMSE: 4.7769
+  Val  (30min) -> MAE: 3.0099, RMSE: 3.7741
+  Test (30min) -> MAE: 3.7601, RMSE: 4.6068
+  Val  (60min) -> MAE: 3.0099, RMSE: 3.7741
+  Test (60min) -> MAE: 3.456, RMSE: 4.253
+
+Zone: zone_low
+  Best model: ar_linear_lag60
+  Selection criterion: lowest_max_MAE_across_15_30_60min_val
+  Max val MAE across horizons: 0.7229
+  Val  (15min) -> MAE: 0.6382, RMSE: 0.8339
+  Test (15min) -> MAE: 0.6586, RMSE: 0.8692
+  Val  (30min) -> MAE: 0.7229, RMSE: 0.9196
+  Test (30min) -> MAE: 0.7318, RMSE: 0.9636
+  Val  (60min) -> MAE: 0.7229, RMSE: 0.9196
+  Test (60min) -> MAE: 0.8317, RMSE: 1.0818
+
+Zone: zone_medium
+  Best model: xgboost
+  Selection criterion: lowest_max_MAE_across_15_30_60min_val
+  Max val MAE across horizons: 2.128
+  Val  (15min) -> MAE: 2.053, RMSE: 2.7277
+  Test (15min) -> MAE: 2.7082, RMSE: 3.1697
+  Val  (30min) -> MAE: 2.128, RMSE: 2.6969
+  Test (30min) -> MAE: 2.3675, RMSE: 2.8714
+  Val  (60min) -> MAE: 2.128, RMSE: 2.6969
+  Test (60min) -> MAE: 2.2703, RMSE: 2.7148
+
+Zone: zone_very_high
+  Best model: xgboost
+  Selection criterion: lowest_max_MAE_across_15_30_60min_val
+  Max val MAE across horizons: 91.7652
+  Val  (15min) -> MAE: 84.0927, RMSE: 102.9816
+  Test (15min) -> MAE: 81.1299, RMSE: 96.54
+  Val  (30min) -> MAE: 91.7652, RMSE: 111.0282
+  Test (30min) -> MAE: 75.2876, RMSE: 92.2598
+  Val  (60min) -> MAE: 91.7652, RMSE: 111.0282
+  Test (60min) -> MAE: 74.5794, RMSE: 93.9603

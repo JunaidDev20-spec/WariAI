@@ -1,0 +1,10 @@
+video_name,timestamp,frame,current_population,unique_people_observed,people_count,entry_count,exit_count,density,confidence,frames_in_window
+crowd_cars.mp4.mov,0.04,1,4.7658,16,4.7658,0,0,11.4915,0.5206,111
+makkah_madinah.mp4.mov,0.04,1,1.2565,27,1.2565,0,0,4.3196,0.282,386
+marathon.mp4.mov,0.04,1,0.0991,14,0.0991,0,0,0.3408,0.0401,464
+walking_front.mp4.mp4,0.033,1,11.3319,347,11.3319,0,0,27.6441,0.6863,1799
+walking_front.mp4.mp4,60.06,1800,9.925,592,9.925,0,0,24.2121,0.6896,1694
+walking_top.mp4.mp4,0.04,1,13.4795,69,13.4795,0,0,365.6557,0.571,342
+Wari_real_vid.mp4,0.043,1,0.5324,64,0.5324,0,0,0.2568,0.0846,1388
+Wari_real_vid.mp4,60.044,1389,5.9085,347,5.9085,0,0,2.8494,0.5896,1388
+Wari_real_vid.mp4,120.044,2777,8.875,349,8.875,0,0,4.28,0.7469,8

@@ -1,0 +1,102 @@
+M3 POPULATION FORECASTING REPORT
+======================================================================
+
+DATA SOURCES INSPECTED:
+  M1: Output_m1\crowd_counts.csv (7580 rows, 6 sessions)
+  M2: Output_m2\test_crowd_counts.csv (6092 rows)
+
+ALIGNMENT ASSESSMENT:
+  M1 and M2 CANNOT be aligned.
+  M2 lacks timestamps, video_name, and zone identifiers.
+  No metadata maps M2 frames to M1 sessions.
+
+FORECASTING EXPERIMENT:
+  Data used: M1 frame-level data with actual timestamps
+  Aggregation: 1.0s non-overlapping windows (mean current_population)
+  Split: chronological 60/20/20 (train/val/test)
+  Model selection: VALIDATION SET (held-out for unbiased evaluation)
+  Final evaluation: TEST SET
+  Horizon: 1-step ahead (next 1.0s window)
+  Models: naive persistence, mean baseline, MA-3 baseline, AR-Linear(lag=3)
+
+RESULTS:
+  makkah_madinah.mp4.mov:
+    Train=9, Validation=3, Test=4
+    [Validation metrics - used for model selection]
+      Naive -> MAE=1.52, RMSE=1.52
+      Mean  -> MAE=2.1556, RMSE=2.1556
+      MA-3  -> MAE=2.0, RMSE=2.0
+      AR-L  -> MAE=1.9689, RMSE=2.0106
+    Selected: naive (val MAE=1.52, val RMSE=1.52)
+    [Test set metrics - unbiased evaluation]
+      Naive -> MAE=1.52, RMSE=1.52
+      Mean  -> MAE=2.1556, RMSE=2.1556
+      MA-3  -> MAE=2.0, RMSE=2.0
+      AR-L  -> MAE=1.998, RMSE=2.0295
+    Best test performance: naive (test MAE=1.52, test RMSE=1.52)
+
+  marathon.mp4.mov:
+    Train=11, Validation=3, Test=5
+    [Validation metrics - used for model selection]
+      Naive -> MAE=0.08, RMSE=0.0864
+      Mean  -> MAE=0.0909, RMSE=0.0924
+      MA-3  -> MAE=0.0933, RMSE=0.0952
+      AR-L  -> MAE=0.1084, RMSE=0.1138
+    Selected: naive (val MAE=0.08, val RMSE=0.0864)
+    [Test set metrics - unbiased evaluation]
+      Naive -> MAE=0.0926, RMSE=0.1001
+      Mean  -> MAE=0.0991, RMSE=0.1043
+      MA-3  -> MAE=0.1006, RMSE=0.1065
+      AR-L  -> MAE=0.1089, RMSE=0.1204
+    Best test performance: naive (test MAE=0.0926, test RMSE=0.1001)
+
+  walking_front.mp4.mp4:
+    Train=70, Validation=23, Test=24
+    [Validation metrics - used for model selection]
+      Naive -> MAE=1.629, RMSE=1.9523
+      Mean  -> MAE=1.3737, RMSE=1.6226
+      MA-3  -> MAE=1.8218, RMSE=2.1485
+      AR-L  -> MAE=1.4395, RMSE=1.6712
+    Selected: mean (val MAE=1.3737, val RMSE=1.6226)
+    [Test set metrics - unbiased evaluation]
+      Naive -> MAE=1.6037, RMSE=1.9418
+      Mean  -> MAE=2.6711, RMSE=2.9252
+      MA-3  -> MAE=1.4101, RMSE=1.6991
+      AR-L  -> MAE=2.59, RMSE=2.8354
+    Best test performance: mean (test MAE=2.6711, test RMSE=2.9252)
+
+  walking_top.mp4.mp4:
+    Train=8, Validation=2, Test=4
+    [Validation metrics - used for model selection]
+      Naive -> MAE=0.22, RMSE=0.2608
+      Mean  -> MAE=1.175, RMSE=1.1833
+      MA-3  -> MAE=0.8333, RMSE=0.845
+      AR-L  -> MAE=1.0707, RMSE=1.4325
+    Selected: naive (val MAE=0.22, val RMSE=0.2608)
+    [Test set metrics - unbiased evaluation]
+      Naive -> MAE=1.0588, RMSE=1.3797
+      Mean  -> MAE=1.6163, RMSE=1.8888
+      MA-3  -> MAE=1.4455, RMSE=1.6733
+      AR-L  -> MAE=0.5668, RMSE=0.8749
+    Best test performance: naive (test MAE=1.0588, test RMSE=1.3797)
+
+  Wari_real_vid.mp4:
+    Train=69, Validation=23, Test=24
+    [Validation metrics - used for model selection]
+      Naive -> MAE=2.7301, RMSE=3.3831
+      Mean  -> MAE=2.4317, RMSE=2.9774
+      MA-3  -> MAE=2.4746, RMSE=3.0431
+      AR-L  -> MAE=2.3201, RMSE=2.9031
+    Selected: ar_linear (val MAE=2.3201, val RMSE=2.9031)
+    [Test set metrics - unbiased evaluation]
+      Naive -> MAE=6.5225, RMSE=6.6477
+      Mean  -> MAE=5.8638, RMSE=6.0026
+      MA-3  -> MAE=5.9809, RMSE=6.1171
+      AR-L  -> MAE=5.9561, RMSE=6.0892
+    Best test performance: ar_linear (test MAE=5.9561, test RMSE=6.0892)
+
+HORIZONS:
+  1 second: VALIDATED on real test set
+  15 minutes: NOT VALIDATED — INSUFFICIENT TEMPORAL DATA (max session 120s)
+  30 minutes: NOT VALIDATED — INSUFFICIENT TEMPORAL DATA (max session 120s)
+  60 minutes: NOT VALIDATED — INSUFFICIENT TEMPORAL DATA (max session 120s)
