@@ -8,7 +8,7 @@ import { useState } from 'react'
 import AtmosphericBackground   from '../components/AtmosphericBackground'
 import CommandNav              from './CommandNav'
 import GlobalMetricsStrip      from './GlobalMetricsStrip'
-import CommandMap              from './CommandMap'
+import RealMap                 from './RealMap'
 import PriorityActionPanel     from './PriorityActionPanel'
 import AIForecastPanel         from './AIForecastPanel'
 import BottomIntelligenceStrip from './BottomIntelligenceStrip'
@@ -233,7 +233,7 @@ export default function CommandCentre({
           <GlobalMetricsStrip metrics={mergedMukam.metrics} />
 
           <div className="cc-main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 16, flex: 1, minHeight: 0 }}>
-            <CommandMap
+            <RealMap
               selectedZoneId={selectedZoneId}
               onZoneSelect={setSelectedZoneId}
               showDeployRoute={showDeployRoute}

@@ -12,12 +12,32 @@
 //  • PREV / NEXT buttons inside the map panel use the same callback.
 // ─────────────────────────────────────────────────────────────────────────
 
-import { useEffect } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import {
   MapContainer, TileLayer, Polyline, CircleMarker, Popup, useMap,
 } from 'react-leaflet'
 import L from 'leaflet'
 import { MUKAMS, ROUTE_START, ROUTE_END } from '../data/mockCommandData'
+import { useRoadRouteSegments } from './useRoadRouteSegments'
+import { distanceToNearestPoint } from './routeGeometry'
+import PalkiMarker from './PalkiMarker'
+
+// ── Palki live-position config (Event Overview only) ───────────────────────
+// The Palki is a slow operational / live-position indicator, not a playback
+// animation. Tune the whole feel from these two values:
+//  • PALKI_SPEED_KMH — demo speed along the real road route (single source).
+//    The original code moved at ~2200 m/s; this is dramatically slower so the
+//    Palki takes a long time to crawl between Mukkams.
+//  • PALKI_AUTOPLAY  — start moving (true) or hold a live snapshot (false).
+const PALKI_SPEED_KMH = 8   // ~walking palanquin pace; bump to speed up
+const PALKI_AUTOPLAY  = true // false = frozen live snapshot at the Lonand anchor
+
+// Demo anchor: Lonand (Mukam 03). The Palki is initialised at the point on the
+// existing calculated road route nearest to these coordinates.
+const LONAND_ANCHOR: [number, number] = (() => {
+  const m = MUKAMS.find(x => x.id === 'M03')
+  return m ? [m.coordinates.lat, m.coordinates.lng] : [17.9558, 74.2837]
+})()
 
 // ── Fix Leaflet's broken default icon in Vite/webpack bundles ─────────────
 // Leaflet tries to resolve icon URLs relative to its own CSS file,
@@ -29,6 +49,15 @@ L.Icon.Default.mergeOptions({
   iconUrl:       'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   shadowUrl:     'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 })
+
+// ── Ordered route waypoints (existing Palkhi sequence) ────────────────────
+// Pune → M01..M05 → Pandharpur. Module-level constant so the routing hook
+// receives a stable reference and does not refetch on every render.
+const ROUTE_WAYPOINTS: [number, number][] = [
+  [ROUTE_START.lat, ROUTE_START.lng],
+  ...MUKAMS.map(m => [m.coordinates.lat, m.coordinates.lng] as [number, number]),
+  [ROUTE_END.lat,   ROUTE_END.lng],
+]
 
 // ── Status → color map (mirrors existing design tokens) ──────────────────
 const STATUS_COLOR: Record<string, string> = {
@@ -78,28 +107,57 @@ const SANS: React.CSSProperties = { fontFamily: 'Manrope, sans-serif' }
 export default function PalkhiMap({ activeMukamId, onMukamSelect }: Props) {
   const activeIdx  = MUKAMS.findIndex(m => m.id === activeMukamId)
   const safeIdx    = activeIdx >= 0 ? activeIdx : 0
-  const mukamCoords = MUKAMS.map(m => [m.coordinates.lat, m.coordinates.lng] as [number, number])
+  // ── Road routing (OSRM / OpenStreetMap) ─────────────────────────────────
+  // Resolves real road geometry for every consecutive leg of ROUTE_WAYPOINTS.
+  const { segments } = useRoadRouteSegments(ROUTE_WAYPOINTS)
 
-  // Full route: Pune → M01..M05 → Pandharpur
-  const fullRouteCoords: [number, number][] = [
-    [ROUTE_START.lat, ROUTE_START.lng],
-    ...mukamCoords,
-    [ROUTE_END.lat, ROUTE_END.lng],
-  ]
+  // Each leg resolves to real road geometry; fall back to a straight line
+  // (between the two endpoints) while loading or if routing fails.
+  const legPath = (i: number): [number, number][] =>
+    segments[i] ?? [ROUTE_WAYPOINTS[i], ROUTE_WAYPOINTS[i + 1]]
 
-  // Completed = Pune + all Mukams up to and including active
-  const completedCoords: [number, number][] = [
-    [ROUTE_START.lat, ROUTE_START.lng],
-    ...mukamCoords.slice(0, safeIdx + 1),
-  ]
-  // Upcoming = active Mukam onwards + Pandharpur
-  const upcomingCoords: [number, number][] = [
-    ...mukamCoords.slice(safeIdx),
-    [ROUTE_END.lat, ROUTE_END.lng],
-  ]
+  const concat = (legs: [number, number][][]): [number, number][] =>
+    legs.reduce<[number, number][]>((acc, p) => acc.concat(p), [])
+
+  // Completed = every leg up to and including the active Mukam
+  const completedPath: [number, number][] = concat(
+    Array.from({ length: safeIdx + 1 }, (_, i) => legPath(i))
+  )
+  // Upcoming = active Mukam → next Mukam … → Pandharpur (includes current journey)
+  const upcomingPath: [number, number][] = concat(
+    Array.from({ length: ROUTE_WAYPOINTS.length - 1 - (safeIdx + 1) }, (_, i) => legPath(safeIdx + 1 + i))
+  )
+  // Faint full-route ghost for context — memoised on the route geometry so the
+  // Palki's anchor distance (and animation loop) stay stable between renders.
+  const allPath: [number, number][] = useMemo(
+    () => concat(Array.from({ length: ROUTE_WAYPOINTS.length - 1 }, (_, i) => legPath(i))),
+    [segments]
+  )
 
   // Centre on Maharashtra / route midpoint
   const center: [number, number] = [18.0, 74.5]
+
+  // ── Palki live-position setup ──────────────────────────────────────────
+  // The Palki rides the FULL existing road route (allPath) so it always stays
+  // on the road geometry. It is anchored to the route point nearest Lonand.
+  const routeReady = segments.length > 0 && segments.every(s => s != null)
+
+  // Arc-length distance (m) from route start to the point nearest Lonand.
+  // Recomputed only when the route geometry changes (i.e. once roads load).
+  const palkiStartDistance = useMemo(
+    () => distanceToNearestPoint(allPath, LONAND_ANCHOR),
+    [allPath]
+  )
+
+  // Respect prefers-reduced-motion.
+  const [reducedMotion, setReducedMotion] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReducedMotion(mq.matches)
+    const handler = () => setReducedMotion(mq.matches)
+    mq.addEventListener?.('change', handler)
+    return () => mq.removeEventListener?.('change', handler)
+  }, [])
 
   return (
     <div style={{ borderRadius: 20, border: '1px solid #1C2520', overflow: 'hidden' }}>
@@ -149,23 +207,25 @@ export default function PalkhiMap({ activeMukamId, onMukamSelect }: Props) {
           <MapFitter activeMukamId={activeMukamId} />
 
           {/* Full route ghost line — very faint gold for context */}
-          <Polyline
-            positions={fullRouteCoords}
-            pathOptions={{ color: '#C8A96B', weight: 1, opacity: 0.18, dashArray: '2 6' }}
-          />
-
-          {/* Completed route segment — teal */}
-          {completedCoords.length > 1 && (
+          {allPath.length > 1 && (
             <Polyline
-              positions={completedCoords}
+              positions={allPath}
+              pathOptions={{ color: '#C8A96B', weight: 1, opacity: 0.18, dashArray: '2 6' }}
+            />
+          )}
+
+          {/* Completed route segment — teal (real roads) */}
+          {completedPath.length > 1 && (
+            <Polyline
+              positions={completedPath}
               pathOptions={{ color: '#2DD4A8', weight: 4, opacity: 0.85, lineCap: 'round', lineJoin: 'round' }}
             />
           )}
 
-          {/* Upcoming route segment — grey dashed */}
-          {upcomingCoords.length > 1 && (
+          {/* Upcoming route segment — grey dashed (current journey + remaining) */}
+          {upcomingPath.length > 1 && (
             <Polyline
-              positions={upcomingCoords}
+              positions={upcomingPath}
               pathOptions={{ color: '#9AA7A0', weight: 2.5, opacity: 0.45, dashArray: '8 8', lineCap: 'round' }}
             />
           )}
@@ -301,6 +361,16 @@ export default function PalkhiMap({ activeMukamId, onMukamSelect }: Props) {
               </CircleMarker>
             )
           })}
+
+          {/* Palki — slow live-position indicator riding the real road route */}
+          <PalkiMarker
+            path={allPath}
+            ready={routeReady}
+            reducedMotion={reducedMotion}
+            startDistance={palkiStartDistance}
+            speedKmh={PALKI_SPEED_KMH}
+            playing={PALKI_AUTOPLAY}
+          />
         </MapContainer>
       </div>
 
