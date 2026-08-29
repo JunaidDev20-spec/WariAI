@@ -65,7 +65,7 @@ function SanitationIcon({ sp }: { sp: SanitationPoint }) {
   )
 }
 
-function ZoneTooltip({ zone, onClose }: { zone: Zone; onClose: () => void }) {
+export function ZoneTooltip({ zone, onClose }: { zone: Zone; onClose: () => void }) {
   const c = STATUS_COLORS[zone.status]
   return (
     <div style={{
@@ -128,7 +128,7 @@ function MapControls({ onZoomIn, onZoomOut, onReset }: { onZoomIn: () => void; o
   )
 }
 
-function MukamNav({ mukams, currentIndex, isTransitioning, onPrev, onNext }: {
+export function MukamNav({ mukams, currentIndex, isTransitioning, onPrev, onNext }: {
   mukams: Mukam[]; currentIndex: number; isTransitioning: boolean; onPrev: () => void; onNext: () => void
 }) {
   const current = mukams[currentIndex]
@@ -225,7 +225,7 @@ function TransitionOverlay({ phase, from, to }: { phase: TransitionPhase; from: 
 
 // ── Map content (rendered inside the SVG transform group) ─────────────────
 
-function MapContent({ mukam, selectedZoneId, onZoneSelect, showDeployRoute, opacity }: {
+export function MapContent({ mukam, selectedZoneId, onZoneSelect, showDeployRoute, opacity }: {
   mukam: Mukam; selectedZoneId: string | null
   onZoneSelect: (id: string | null) => void; showDeployRoute: boolean; opacity: number
 }) {
