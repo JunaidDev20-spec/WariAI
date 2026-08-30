@@ -6,7 +6,6 @@
 import { useEffect, useCallback } from 'react'
 import { useState } from 'react'
 import AtmosphericBackground   from '../components/AtmosphericBackground'
-import CommandNav              from './CommandNav'
 import GlobalMetricsStrip      from './GlobalMetricsStrip'
 import RealMap                 from './RealMap'
 import CleanlinessDeploymentCard from './CleanlinessDeploymentCard'
@@ -187,12 +186,6 @@ export default function CommandCentre({
       <AtmosphericBackground />
 
       <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', flex: 1 }}>
-        <CommandNav
-          alertCount={mergedMukam.metrics.criticalZones}
-          currentMukamId={mergedMukam.id}
-          lastUpdate={mergedMukam.metrics.lastUpdate}
-        />
-
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 12, padding: '14px 20px 20px', minHeight: 0 }}>
 
           {/* Mukam Prev/Next navigation bar */}
