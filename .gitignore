@@ -1,0 +1,66 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Data / media (local only, not in Git)
+Videos/
+*.mp4
+*.mov
+*.m4v
+*.avi
+*.mkv
+
+# Model weights (downloaded on demand)
+*.pt
+*.onnx
+
+# Large binary outputs (not tracked in Git)
+M1/outputs/annotated/
+M1/outputs/validation_results/
+M1/outputs/ablation/
+
+# Keep lightweight outputs
+!M1/outputs/*.csv
+!M1/outputs/*.json

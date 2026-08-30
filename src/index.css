@@ -1,0 +1,280 @@
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base reset ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  background-color: #090D0B;
+  color: #F3F6F4;
+  font-family: 'Manrope', system-ui, sans-serif;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+#root { min-height: 100vh; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #090D0B; }
+::-webkit-scrollbar-thumb { background: #28332D; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #3D4F47; }
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN SYSTEM ANIMATIONS
+═══════════════════════════════════════════════════════════════ */
+
+/* Section fade-in (design system preview) */
+.section-enter { animation: sectionFadeIn 0.6s ease forwards; }
+@keyframes sectionFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Live pulse dot */
+@keyframes livePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(0.8); }
+}
+.live-dot { animation: livePulse 2.4s ease-in-out infinite; }
+
+/* ═══════════════════════════════════════════════════════════════
+   COMMAND CENTRE ANIMATIONS
+═══════════════════════════════════════════════════════════════ */
+
+/* Page-level entrance — staggered children */
+@keyframes ccFadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ccFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes ccScaleIn {
+  from { opacity: 0; transform: scale(0.985); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.cc-nav-enter   { animation: ccFadeIn  0.35s ease forwards; }
+.cc-strip-enter { animation: ccFadeUp  0.45s 0.1s ease both; }
+.cc-map-enter   { animation: ccScaleIn 0.55s 0.18s ease both; }
+.cc-right-enter { animation: ccFadeUp  0.45s 0.25s ease both; }
+.cc-bottom-enter{ animation: ccFadeUp  0.45s 0.35s ease both; }
+
+/* Metric count-up shimmer */
+@keyframes metricReveal {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.metric-reveal { animation: metricReveal 0.5s ease forwards; }
+
+/* Critical zone breathing glow */
+@keyframes critBreath {
+  0%, 100% { opacity: 0.14; }
+  50%       { opacity: 0.28; }
+}
+.crit-breath { animation: critBreath 3.2s ease-in-out infinite; }
+
+/* Forecast/route dash flow */
+@keyframes dashFlow {
+  from { stroke-dashoffset: 20; }
+  to   { stroke-dashoffset: 0; }
+}
+.dash-flow { animation: dashFlow 1.6s linear infinite; }
+
+/* Live marker pulse ring */
+@keyframes markerRing {
+  0%   { r: 7;  opacity: 0.18; }
+  70%  { r: 18; opacity: 0;    }
+  100% { r: 18; opacity: 0;    }
+}
+.marker-ring { animation: markerRing 2.4s ease-out infinite; }
+
+/* Route movement — directional flow along path */
+@keyframes routeFlow {
+  from { stroke-dashoffset: 40; }
+  to   { stroke-dashoffset: 0; }
+}
+.route-flow { animation: routeFlow 2s linear infinite; }
+
+/* Priority panel urgent pulse border */
+@keyframes urgentBorder {
+  0%, 100% { border-color: rgba(239,91,91,0.28); }
+  50%       { border-color: rgba(239,91,91,0.52); }
+}
+.urgent-border { animation: urgentBorder 3s ease-in-out infinite; }
+
+/* Deploy button state */
+@keyframes deployPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(45,212,168,0); }
+  50%       { box-shadow: 0 0 16px 4px rgba(45,212,168,0.22); }
+}
+.deploy-pulse { animation: deployPulse 2s ease-in-out infinite; }
+
+/* Forecast line draw */
+@keyframes lineDrawTeal {
+  from { stroke-dashoffset: 300; }
+  to   { stroke-dashoffset: 0; }
+}
+@keyframes lineDrawViolet {
+  from { stroke-dashoffset: 200; }
+  to   { stroke-dashoffset: 0; }
+}
+.line-draw-teal   { stroke-dasharray: 300; animation: lineDrawTeal   0.8s 0.4s ease forwards; }
+.line-draw-violet { stroke-dasharray: 200; animation: lineDrawViolet 0.7s 0.9s ease forwards; opacity: 0; animation-fill-mode: both; }
+
+/* En-route route reveal */
+@keyframes routeReveal {
+  from { stroke-dashoffset: 500; opacity: 0.8; }
+  to   { stroke-dashoffset: 0;   opacity: 0.8; }
+}
+.route-reveal { stroke-dasharray: 500; animation: routeReveal 1.4s ease-out forwards; }
+
+/* ═══════════════════════════════════════════════════════════════
+   INTERACTIVE STATES
+═══════════════════════════════════════════════════════════════ */
+
+/* Panel hover lift */
+.panel-hover {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+              transform 0.2s cubic-bezier(0.34,1.2,0.64,1);
+}
+.panel-hover:hover {
+  border-color: #3D4F47;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.28);
+  transform: translateY(-2px);
+}
+
+/* Button base spring */
+.btn-base { transition: all 0.18s cubic-bezier(0.34,1.1,0.64,1); }
+.btn-base:active { transform: scale(0.96) !important; transition-duration: 0.08s; }
+
+/* Nav item */
+.nav-item {
+  transition: color 0.15s ease, background 0.15s ease;
+  cursor: pointer;
+}
+.nav-item:hover { color: #F3F6F4; }
+
+/* Status row */
+.status-row { transition: background 0.18s ease, transform 0.18s ease; }
+.status-row:hover { transform: translateX(2px); }
+
+/* Zone hover on map */
+.map-zone { transition: opacity 0.3s ease; cursor: pointer; }
+.map-zone:hover { opacity: 1 !important; }
+
+/* Forecast segment hover */
+.forecast-seg { transition: opacity 0.2s ease; cursor: pointer; }
+.forecast-seg:hover { opacity: 1 !important; }
+
+/* ═══════════════════════════════════════════════════════════════
+   GLOW UTILITIES
+═══════════════════════════════════════════════════════════════ */
+.glow-teal     { box-shadow: 0 0 28px rgba(45,212,168,0.1); }
+.glow-violet   { box-shadow: 0 0 28px rgba(155,138,251,0.1); }
+.glow-critical { box-shadow: 0 0 36px rgba(239,91,91,0.12); }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1023px) {
+  .main-content { padding: 40px 24px 80px; }
+  .cc-main-grid { grid-template-columns: 1fr !important; }
+  .cc-right-col { display: grid !important; grid-template-columns: 1fr 1fr; gap: 16px; }
+  /* Bottom strip: 2-column on tablet */
+  .cc-bottom-strip {
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto auto !important;
+  }
+  /* Hide separator lines in 2×2 layout */
+  .cc-bottom-strip .cc-sep { display: none !important; }
+}
+@media (max-width: 767px) {
+  .main-content { padding: 32px 16px 64px; }
+  .hero-title { font-size: clamp(2.5rem, 12vw, 4rem) !important; }
+  .section-gap { gap: 4rem !important; }
+  .cc-metrics-grid { grid-template-columns: 1fr 1fr !important; }
+  .cc-right-col { grid-template-columns: 1fr !important; }
+  .cc-bottom-strip {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+  }
+  .cc-bottom-strip .cc-sep { display: none !important; }
+  .cc-nav-items { display: none; }
+}
+
+/* ── prefers-reduced-motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .live-dot, .crit-breath, .dash-flow, .marker-ring, .route-flow,
+  .urgent-border, .deploy-pulse, .line-draw-teal, .line-draw-violet,
+  .route-reveal, .section-enter, .panel-hover, .btn-base,
+  .cc-nav-enter, .cc-strip-enter, .cc-map-enter, .cc-right-enter, .cc-bottom-enter {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+  .panel-hover:hover { transform: none; }
+}
+
+/* ── Incidents page responsive ── */
+@media (max-width: 1023px) {
+  .incidents-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto 1fr;
+  }
+}
+
+/* ── Intelligence page responsive ── */
+@media (max-width: 1023px) {
+  .insight-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .intel-pipeline-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Resources page responsive ── */
+@media (max-width: 1023px) {
+  .resources-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Event Overview page responsive ── */
+@media (max-width: 1023px) {
+  .overview-bottom-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Floating top nav clearance ── */
+/* Nav pill sits at top:20px, is ~36px tall → bottom edge at ~56px.
+   72px paddingTop gives ~16px breathing room below the nav. */
+.app-page-content {
+  padding-top: 72px;
+  min-height: 100vh;
+}
+
+/* Hide scrollbar on the nav wrapper on tiny screens (still scrollable) */
+.app-page-content::-webkit-scrollbar { display: none; }
+
+/* Fixed nav wrapper — hide webkit scrollbar */
+div[style*="position: fixed"][style*="top: 20px"]::-webkit-scrollbar {
+  display: none;
+}
